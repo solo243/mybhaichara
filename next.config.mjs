@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   /* config options here */
+  images: {
+    unoptimized: true,
+  },
   reactCompiler: true,
   allowedDevOrigins: ["192.168.1.7"],
   images: {
