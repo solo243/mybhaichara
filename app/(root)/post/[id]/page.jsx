@@ -82,7 +82,7 @@ const PostPage = async ({ params }) => {
             <Share size={18} />
             Share
           </a> */}
-          <DownloadButton />
+          {/* <DownloadButton videoUrl={rawVideoUrl} /> */}
           <ShareButton />
         </div>
 

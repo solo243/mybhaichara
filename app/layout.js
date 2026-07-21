@@ -10,19 +10,23 @@ const outfit = Outfit({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://www.leaftv.fun/"), // Replace with your actual domain
+  // FIXED: Aligned with your sitemap (no 'www'). Consistency here is critical.
+  metadataBase: new URL("https://leaftv.fun"),
 
-  // 1. Title: The first thing Google sees.
+  // NEW: Sets the root domain as the master copy to prevent duplicate content penalties
+  alternates: {
+    canonical: "/",
+  },
+
   title: {
     default: "Bhaichara | Watch & Share Free Videos",
     template: "%s | Watch Free on Bhaichara",
   },
 
-  // 2. Description: The snippet shown under the link in Google.
   description:
     "Stream, watch, and share free adult videos on Bhaichara. Enjoy high-quality streaming with no subscription or registration required.",
 
-  // 3. Keywords: vital for helping search engines understand your niche.
+  // Note: Google ignores keywords, but smaller search engines still use them.
   keywords: [
     "bhaichara",
     "watch free porn",
@@ -32,20 +36,26 @@ export const metadata = {
     "free video streaming",
     "hd adult movies",
     "no sign up adult site",
+    "indian mms",
+    "indian porn",
   ],
 
-  // 4. Open Graph: Controls how your link looks on Facebook/Discord/WhatsApp
+  // NEW: Crucial for your niche. Protects you from silent SafeSearch de-indexing.
+  other: {
+    rating: "adult",
+  },
+
   openGraph: {
     title: "Bhaichara - Watch & Share Free Videos",
     description:
       "Unlimited streaming and sharing of adult videos. No Subscription. Just Play.",
-    url: "https://www.leaftv.fun/", // Replace with your actual domain
+    url: "https://leaftv.fun/",
     siteName: "Bhaichara",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: "/favicon.png", // Update this to your site's Open Graph image
+        url: "/ogimg.jpg", // Create a 1200x630 image and put it in your /public folder
         width: 1200,
         height: 630,
         alt: "Bhaichara Free Streaming Website",
@@ -53,15 +63,13 @@ export const metadata = {
     ],
   },
 
-  // 5. Twitter Card: Controls how it looks on X (Twitter)
   twitter: {
     card: "summary_large_image",
     title: "Bhaichara | Watch & Share Free Videos",
     description: "Stream and share free adult videos in HD.",
-    images: ["/favicon.png"], // Reuses the same image
+    images: ["/og-image.jpg"], // Matches the OpenGraph image
   },
 
-  // 6. Robots: Ensures Google knows it's allowed to index your site
   robots: {
     index: true,
     follow: true,
@@ -74,9 +82,32 @@ export const metadata = {
     },
   },
 };
+// Add this right before export default function RootLayout
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Bhaichara",
+  url: "https://leaftv.fun/",
+  potentialAction: {
+    "@type": "SearchAction",
+    // This MUST exactly match your actual search route
+    target: "https://leaftv.fun/search?query={search_term_string}",
+    "query-input": "required name=search_term_string",
+  },
+};
 export default function RootLayout({ children }) {
   return (
     <html suppressHydrationWarning lang="en">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="zucoy98lRhLXRncH-YWtrBFIQntWO5YIuJFjlqIyQIk"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className={`${outfit.className} min-h-full bg-black flex flex-col`}>
         <Navbar />
         <main className="grow px-4 w-full ">{children}</main>
