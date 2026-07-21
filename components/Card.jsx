@@ -51,14 +51,14 @@ const Card = ({ data }) => {
         </div>
       </div>
 
-      <div className=" py-2">
+      <div className="mt-1 py-2">
         <h3 className="line-clamp-2 min-h-[2.6rem] font-semibold leading-snug text-white sm:text-[16px]">
           {postData.title}
         </h3>
 
         <div className="mt-1 flex items-center justify-between text-sm text-neutral-500 font-medium">
           <span>Post ID: #{postData.shareCode}</span>
-          <span className="font-medium flex items-center gap-0.5 text-xs transition group-hover:translate-x-1 ">
+          <span className="font-medium flex items-center gap-0.5 text-sm transition group-hover:translate-x-1 ">
             view post <ArrowRight size={17} />
           </span>
         </div>
