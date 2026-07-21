@@ -1,9 +1,10 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 
 import { getRecommendedVideos, getVideoById } from "@/lib/FetchVideo";
 import CardContiner from "@/components/CardContiner";
+import { Download, Share } from "lucide-react";
+import ShareButton from "@/components/ShareButton";
 
 export const revalidate = 60;
 
@@ -12,15 +13,23 @@ const PostPage = async ({ params }) => {
   const videoId = resolvedParams.id;
 
   const data = await getVideoById(videoId);
-
+  // const data = [];
   if (!data) {
     notFound();
   }
 
   const recommendations = await getRecommendedVideos(videoId, 8);
 
-  const videoUrl = data?.extracted_media?.direct_videos?.[0] || "";
   const title = data?.title || "Video title unavailable";
+  const rawVideoUrl = data?.extracted_media?.direct_videos?.[0] || "";
+  const videoUrl = rawVideoUrl
+    ? `/api/video?url=${encodeURIComponent(rawVideoUrl)}`
+    : "";
+  const downloadUrl = rawVideoUrl
+    ? `/api/video?url=${encodeURIComponent(rawVideoUrl)}&download=1&filename=${encodeURIComponent(
+        `${title}.mp4`,
+      )}`
+    : "";
   const shareCode = data?.shareCode || data?._id || "NA";
 
   return (
@@ -34,7 +43,6 @@ const PostPage = async ({ params }) => {
             playsInline
             preload="metadata"
             muted
-            controlsList="nodownload"
           >
             {videoUrl ? <source src={videoUrl} type="video/mp4" /> : null}
             Your browser does not support the video tag.
@@ -51,14 +59,36 @@ const PostPage = async ({ params }) => {
           </p>
         </div>
 
+        {/* Download  */}
+        <div className="flex mb-14 items-center mt-4 gap-2">
+          {downloadUrl ? (
+            <div className=" items-center flex  space-x-2">
+              <a
+                href={downloadUrl}
+                download
+                className="inline-flex items-center rounded bg-red-600 px-4 py-2 text-sm font-medium text-white gap-2 transition hover:bg-red-700"
+              >
+                <Download size={18} />
+                Download video
+              </a>
+            </div>
+          ) : null}
+          {/* <a
+            href=""
+            className="bg-neutral-900 flex items-center gap-2 cursor-pointer transition hover:bg-neutral-800 px-4 text-sm py-2 rounded"
+          >
+            <Share size={18} />
+            Share
+          </a> */}
+          <ShareButton />
+        </div>
+
         {recommendations.length > 0 ? (
-          <div className="mt-10">
-            <h2 className="mb-4 text-xl font-semibold text-white">
+          <div className="">
+            <h2 className="mb-4 text-2xl font-semibold text-white">
               Recommended videos
             </h2>
-            {/* <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"> */}
             <CardContiner data={recommendations} />
-            {/* </div> */}
           </div>
         ) : null}
       </div>
