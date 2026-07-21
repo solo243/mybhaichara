@@ -9,6 +9,8 @@ const Card = ({ data }) => {
     imageUrl: data?.homepage_thumbnail || "",
     videos: data?.extracted_media?.direct_videos || [],
     id: data?.id || "NA",
+    duration: data?.duration || "NA",
+    shareCode: data?.shareCode || "NA",
   };
 
   const slugify = (value) =>
@@ -44,11 +46,9 @@ const Card = ({ data }) => {
           </div>
         )}
 
-        {/* <div className="absolute bottom-3 left-3 rounded-full bg-black/70 px-3 py-1 text-[11px] font-medium text-white backdrop-blur">
-          {postData.videos.length > 0
-            ? `${postData.videos.length} video${postData.videos.length > 1 ? "s" : ""}`
-            : "Video"}
-        </div> */}
+        <div className="absolute bottom-3 left-3 rounded-full bg-black/70 px-3 py-1 text-[11px]  font-medium text-white backdrop-blur">
+          {postData.duration || "NA"}
+        </div>
       </div>
 
       <div className=" py-2">
@@ -57,7 +57,7 @@ const Card = ({ data }) => {
         </h3>
 
         <div className="mt-1 flex items-center justify-between text-sm text-neutral-500 font-medium">
-          <span>{/* Post Id : <span> #{postData.id}</span> */}</span>
+          <span>Post ID: #{postData.shareCode}</span>
           <span className="font-medium flex items-center gap-0.5 text-xs transition group-hover:translate-x-1">
             View Post <ArrowRight size={17} />
           </span>

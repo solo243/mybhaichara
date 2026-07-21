@@ -1,7 +1,9 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 
-import { getVideoById } from "@/lib/FetchVideo";
+import { getRecommendedVideos, getVideoById } from "@/lib/FetchVideo";
+import CardContiner from "@/components/CardContiner";
 
 export const revalidate = 60;
 
@@ -15,9 +17,11 @@ const PostPage = async ({ params }) => {
     notFound();
   }
 
+  const recommendations = await getRecommendedVideos(videoId, 8);
+
   const videoUrl = data?.extracted_media?.direct_videos?.[0] || "";
   const title = data?.title || "Video title unavailable";
-  const postId = data?.id || data?._id || "NA";
+  const shareCode = data?.shareCode || data?._id || "NA";
 
   return (
     <main className="min-h-screen bg-black md:pt-8 pb-10">
@@ -42,8 +46,19 @@ const PostPage = async ({ params }) => {
           <h1 className="text-2xl line-clamp-4 md:text-3xl font-semibold text-white">
             {title}
           </h1>
-          <p className="mt-2 text-sm text-neutral-400">ID: #{postId}</p>
+          <p className="mt-2 text-lg text-neutral-400">Post ID: #{shareCode}</p>
         </div>
+
+        {recommendations.length > 0 ? (
+          <div className="mt-10">
+            <h2 className="mb-4 text-xl font-semibold text-white">
+              Recommended videos
+            </h2>
+            {/* <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"> */}
+            <CardContiner data={recommendations} />
+            {/* </div> */}
+          </div>
+        ) : null}
       </div>
     </main>
   );

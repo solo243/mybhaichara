@@ -39,7 +39,12 @@ export async function GET(request) {
       const searchLimit = Math.min(limit, 10);
       const searchRegex = new RegExp(query.trim(), "i");
       const matchedVideos = await videoCollection
-        .find({ title: { $regex: searchRegex } })
+        .find({
+          $or: [
+            { title: { $regex: searchRegex } },
+            { shareCode: { $regex: searchRegex } },
+          ],
+        })
         .limit(searchLimit)
         .toArray();
 
