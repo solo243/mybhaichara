@@ -12,7 +12,7 @@ export async function GET(request) {
     const videoId = searchParams.get("videoId");
     const query = searchParams.get("query") || "";
     const page = parseInt(searchParams.get("page")) || 1;
-    const limit = parseInt(searchParams.get("limit")) || 20;
+    const limit = parseInt(searchParams.get("limit")) || 10;
 
     if (videoId) {
       const query = mongoose.isValidObjectId(videoId)

@@ -11,6 +11,13 @@ const nextConfig = {
         port: "",
         pathname: "**",
       },
+      // Added your new CDN domain here
+      {
+        protocol: "https",
+        hostname: "vk25cdn.viralkand.com",
+        port: "",
+        pathname: "**",
+      },
     ],
   },
 };

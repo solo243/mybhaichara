@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -58,8 +58,8 @@ const Card = ({ data }) => {
 
         <div className="mt-1 flex items-center justify-between text-sm text-neutral-500 font-medium">
           <span>Post ID: #{postData.shareCode}</span>
-          <span className="font-medium flex items-center gap-0.5 text-xs transition group-hover:translate-x-1">
-            View Post <ArrowRight size={17} />
+          <span className="font-medium flex items-center gap-0.5 text-xs transition group-hover:translate-x-1 ">
+            view post <ArrowRight size={17} />
           </span>
         </div>
       </div>

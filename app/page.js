@@ -2,11 +2,13 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import React, { Suspense } from "react";
 
-import FetchVideo from "@/lib/FetchVideo";
+import CardContiner from "@/components/CardContiner";
+import { getRandomHomeVideos } from "@/lib/FetchVideo";
 
 export const revalidate = 3600;
 
 const Home = async () => {
+  // const getRandomHomeVideos = [];
   return (
     <main className="min-h-screen max-w-7xl mx-auto">
       <div className="items-center flex flex-col">
@@ -32,16 +34,30 @@ const Home = async () => {
         </h1>
       </div>
 
-      {/* 4. Pass the database videos to the CardContainer */}
       <Suspense
         fallback={
           <div className="text-white text-center mt-10">Loading videos...</div>
         }
       >
-        <FetchVideo page={1} limit={20} />
+        <HomeVideos />
       </Suspense>
+
+      <div className=" w-full flex items-center mx-auto">
+        <Link
+          href={"/explore"}
+          className="text-lg bg-neutral-900 px-10 py-2 font-semibold w-fit mx-auto mt-8 cursor-pointer hover:border-accent border border-neutral-900"
+        >
+          Show more
+        </Link>
+      </div>
     </main>
   );
 };
+
+async function HomeVideos() {
+  const videos = await getRandomHomeVideos(20);
+
+  return <CardContiner data={videos} />;
+}
 
 export default Home;

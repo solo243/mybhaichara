@@ -46,7 +46,9 @@ const PostPage = async ({ params }) => {
           <h1 className="text-2xl line-clamp-4 md:text-3xl font-semibold text-white">
             {title}
           </h1>
-          <p className="mt-2 text-lg text-neutral-400">Post ID: #{shareCode}</p>
+          <p className="md:mt-2 mt-1 md:text-lg text-base text-neutral-400">
+            Post ID: #{shareCode}
+          </p>
         </div>
 
         {recommendations.length > 0 ? (
