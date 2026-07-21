@@ -5,6 +5,7 @@ import { getRecommendedVideos, getVideoById } from "@/lib/FetchVideo";
 import CardContiner from "@/components/CardContiner";
 import { Download, Share } from "lucide-react";
 import ShareButton from "@/components/ShareButton";
+import DownloadButton from "@/components/DownloadButton";
 
 export const revalidate = 60;
 
@@ -22,14 +23,15 @@ const PostPage = async ({ params }) => {
 
   const title = data?.title || "Video title unavailable";
   const rawVideoUrl = data?.extracted_media?.direct_videos?.[0] || "";
-  const videoUrl = rawVideoUrl
-    ? `/api/video?url=${encodeURIComponent(rawVideoUrl)}`
-    : "";
-  const downloadUrl = rawVideoUrl
-    ? `/api/video?url=${encodeURIComponent(rawVideoUrl)}&download=1&filename=${encodeURIComponent(
-        `${title}.mp4`,
-      )}`
-    : "";
+
+  // const videoUrl = rawVideoUrl
+  //   ? `/api/video?url=${encodeURIComponent(rawVideoUrl)}`
+  //   : "";
+  // const downloadUrl = rawVideoUrl
+  //   ? `/api/video?url=${encodeURIComponent(rawVideoUrl)}&download=1&filename=${encodeURIComponent(
+  //       `${title}.mp4`,
+  //     )}`
+
   const shareCode = data?.shareCode || data?._id || "NA";
 
   return (
@@ -44,7 +46,7 @@ const PostPage = async ({ params }) => {
             preload="metadata"
             muted
           >
-            {videoUrl ? <source src={videoUrl} type="video/mp4" /> : null}
+            {rawVideoUrl ? <source src={rawVideoUrl} type="video/mp4" /> : null}
             Your browser does not support the video tag.
           </video>
         </div>
@@ -61,7 +63,7 @@ const PostPage = async ({ params }) => {
 
         {/* Download  */}
         <div className="flex mb-14 items-center mt-4 gap-2">
-          {downloadUrl ? (
+          {/* {downloadUrl ? (
             <div className=" items-center flex  space-x-2">
               <a
                 href={downloadUrl}
@@ -72,7 +74,7 @@ const PostPage = async ({ params }) => {
                 Download video
               </a>
             </div>
-          ) : null}
+          ) : null} */}
           {/* <a
             href=""
             className="bg-neutral-900 flex items-center gap-2 cursor-pointer transition hover:bg-neutral-800 px-4 text-sm py-2 rounded"
@@ -80,6 +82,7 @@ const PostPage = async ({ params }) => {
             <Share size={18} />
             Share
           </a> */}
+          <DownloadButton />
           <ShareButton />
         </div>
 
