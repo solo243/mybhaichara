@@ -5,8 +5,6 @@ import { getRecommendedVideos, getVideoById } from "@/lib/FetchVideo";
 import CardContiner from "@/components/CardContiner";
 import ShareButton from "@/components/ShareButton";
 
-export const revalidate = 60;
-
 const PostPage = async ({ params }) => {
   const resolvedParams = await params;
   const videoId = resolvedParams.id;

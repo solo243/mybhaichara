@@ -46,8 +46,7 @@ const SearchPageContent = () => {
         if (!response.ok) throw new Error("Search failed");
 
         const data = await response.json();
-        const items = data?.data || [];
-
+        const items = (await data?.data) || [];
         setResults(items);
         setCachedResults((prev) => ({ ...prev, [trimmed]: items }));
       } catch (error) {

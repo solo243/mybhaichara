@@ -2,14 +2,16 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { connectDB } from "@/lib/mongooseConnect";
 
+export const revalidate = 180;
+
 export async function GET(request) {
   try {
     await connectDB();
     const db = mongoose.connection.db;
-    const videoCollection = db.collection("mms");
+    const videoCollection = db.collection("videos");
 
     const { searchParams } = new URL(request.url);
-    const videoId = searchParams.get("videoId");
+    const videoId = searchParams.get("videos");
     const query = searchParams.get("query") || "";
     const page = parseInt(searchParams.get("page")) || 1;
     const limit = parseInt(searchParams.get("limit")) || 10;
@@ -42,7 +44,7 @@ export async function GET(request) {
         .find({
           $or: [
             { title: { $regex: searchRegex } },
-            { shareCode: { $regex: searchRegex } },
+            { videoId: { $regex: searchRegex } },
           ],
         })
         .limit(searchLimit)

@@ -5,8 +5,6 @@ import React, { Suspense } from "react";
 import CardContiner from "@/components/CardContiner";
 import { getRandomHomeVideos } from "@/lib/FetchVideo";
 
-export const revalidate = 3600;
-
 const Home = async () => {
   // const getRandomHomeVideos = [];
   return (

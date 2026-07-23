@@ -30,7 +30,7 @@ export default async function sitemap() {
     // Fetch data from your home API endpoint
     const response = await fetch(`${baseUrl}/api/home`, {
       // Cache this for 1 hour so Googlebot doesn't spam your API
-      next: { revalidate: 3600 },
+      // next: { revalidate: 3600 },
     });
 
     if (response.ok) {
