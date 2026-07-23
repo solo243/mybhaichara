@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next";
+import ScrollToTop from "@/components/ScrollTop";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -97,7 +98,7 @@ const jsonLd = {
 };
 export default function RootLayout({ children }) {
   return (
-    <html suppressHydrationWarning lang="en">
+    <html suppressHydrationWarning lang="en" data-scroll-behavior="smooth">
       <head>
         <meta
           name="google-site-verification"
@@ -110,6 +111,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${outfit.className} min-h-full bg-black flex flex-col`}>
         <Navbar />
+        <ScrollToTop />
         <main className="grow px-4 w-full ">{children}</main>
         <Footer />
         <Analytics />

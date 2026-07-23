@@ -29,7 +29,7 @@ const Card = ({ data }) => {
         pathname: `/post/${data._id}`,
       }}
       prefetch={true}
-      className="group md:mb-6 mb-4 cursor-pointer block w-full overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
+      className="group md:mb-6 mb-2 cursor-pointer block w-full overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
     >
       {/* Added w-full to ensure the relative container has width */}
       <div className="relative w-full h-48 overflow-hidden sm:h-52">
@@ -39,6 +39,7 @@ const Card = ({ data }) => {
             // src="https://viralkand.com/wp-content/uploads/desi-girlfriend-mms-1.jpg"
             alt={postData.title}
             fill
+            loading="lazy"
             unoptimized // Bypasses the Vercel quota limit
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover transition duration-300 group-hover:scale-105"
