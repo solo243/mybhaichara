@@ -2,8 +2,6 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { connectDB } from "@/lib/mongooseConnect";
 
-export const revalidate = 180;
-
 export async function GET(request) {
   try {
     await connectDB();

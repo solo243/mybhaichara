@@ -49,7 +49,7 @@ const Card = ({ data }) => {
           </div>
         )}
 
-        <div className="absolute bottom-3 left-3 rounded-full bg-black/70 px-3 py-1 text-[11px] font-medium text-white backdrop-blur">
+        <div className="absolute bottom-3 right-3 rounded bg-black/70 px-3 py-0.5 text-[13px] font-medium text-white backdrop-blur">
           {postData.duration || "NA"}
         </div>
       </div>
