@@ -6,7 +6,7 @@ export async function GET(request) {
   try {
     await connectDB();
     const db = mongoose.connection.db;
-    const videoCollection = db.collection("videos");
+    const videoCollection = db.collection("mms");
 
     const { searchParams } = new URL(request.url);
     const videoId = searchParams.get("videoId");

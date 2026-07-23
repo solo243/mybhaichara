@@ -6,11 +6,11 @@ import React from "react";
 const Card = ({ data }) => {
   const postData = {
     title: data?.title || "Title is not available aginat",
-    imageUrl: data?.homepage_thumbnail || "",
+    img_url: data?.img_url || "",
     videos: data?.extracted_media?.direct_videos || [],
     id: data?.id || "NA",
     duration: data?.duration || "NA",
-    shareCode: data?.shareCode || "NA",
+    videoId: data?.videoId || "NA",
   };
 
   const slugify = (value) =>
@@ -31,15 +31,17 @@ const Card = ({ data }) => {
       prefetch={true}
       className="group md:mb-6 mb-4 cursor-pointer block w-full overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
     >
-      <div className="relative  h-48 overflow-hidden sm:h-52">
-        {postData.imageUrl ? (
+      {/* Added w-full to ensure the relative container has width */}
+      <div className="relative w-full h-48 overflow-hidden sm:h-52">
+        {postData.img_url ? (
           <Image
-            src={postData.imageUrl}
+            src={postData.img_url}
+            // src="https://viralkand.com/wp-content/uploads/desi-girlfriend-mms-1.jpg"
             alt={postData.title}
             fill
-            unoptimized
+            unoptimized // Bypasses the Vercel quota limit
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover  transition duration-300 group-hover:scale-105"
+            className="object-cover transition duration-300 group-hover:scale-105"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-fuchsia-600 via-violet-600 to-slate-900 text-sm font-semibold text-white">
@@ -47,7 +49,7 @@ const Card = ({ data }) => {
           </div>
         )}
 
-        <div className="absolute bottom-3 left-3 rounded-full bg-black/70 px-3 py-1 text-[11px]  font-medium text-white backdrop-blur">
+        <div className="absolute bottom-3 left-3 rounded-full bg-black/70 px-3 py-1 text-[11px] font-medium text-white backdrop-blur">
           {postData.duration || "NA"}
         </div>
       </div>
@@ -58,7 +60,7 @@ const Card = ({ data }) => {
         </h3>
 
         <div className="mt-1 flex items-center justify-between text-sm text-neutral-500 font-medium">
-          <span>Post ID: #{postData.shareCode}</span>
+          <span>Post ID: #{postData.videoId}</span>
           <span className="font-medium flex items-center gap-0.5 text-sm transition group-hover:translate-x-1 ">
             view post <ArrowRight size={17} />
           </span>
