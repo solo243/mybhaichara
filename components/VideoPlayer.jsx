@@ -8,6 +8,10 @@ const fixVideoUrl = (url) => {
   if (url.includes("lulustream.com/") && !url.includes("lulustream.com/e/")) {
     return url.replace("lulustream.com/", "lulustream.com/e/");
   }
+    if (url.includes("https://vidara.to/") && !url.includes("https://vidara.to/e/")) {
+    return url.replace("https://vidara.to/", "https://vidara.to/e/");
+  }
+  
   return url;
 };
 
