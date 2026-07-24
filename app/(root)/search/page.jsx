@@ -1,8 +1,8 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import CardContiner from "@/components/CardContiner";
+import CardContiner from "@/components/CardContiner"; // Ensure this spelling matches your file
 
 const SearchPageContent = () => {
   const router = useRouter();
@@ -10,21 +10,31 @@ const SearchPageContent = () => {
   const currentQuery = searchParams.get("query") || "";
 
   const [query, setQuery] = useState(currentQuery);
+  const [prevCurrentQuery, setPrevCurrentQuery] = useState(currentQuery);
+
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [cachedResults, setCachedResults] = useState({});
 
-  // 1. Keep input in sync if URL changes (e.g., user hits browser Back button)
-  useEffect(() => {
+  // FIX: Use a Ref for caching to avoid infinite loops and dependency warnings.
+  const cachedResults = useRef({});
+
+  // FIX: Sync state during render instead of inside useEffect.
+  // This satisfies "You Might Not Need An Effect" and stops cascading renders.
+  if (currentQuery !== prevCurrentQuery) {
+    setPrevCurrentQuery(currentQuery);
     setQuery(currentQuery);
-  }, [currentQuery]);
 
-  // 2. DEBOUNCE EFFECT: Watches user typing and updates URL after 500ms delay
+    // Clear results synchronously if the new query is too short
+    if (currentQuery.trim().length < 3) {
+      setResults([]);
+    }
+  }
+
+  // DEBOUNCE EFFECT: Watches user typing and updates URL after 500ms delay
   useEffect(() => {
     const trimmed = query.trim();
 
     const debounceTimeout = setTimeout(() => {
-      // Only update URL if the user has typed 3+ chars or completely cleared it
       if (trimmed !== currentQuery) {
         if (trimmed.length >= 3) {
           router.push(`/search?query=${encodeURIComponent(trimmed)}`);
@@ -32,28 +42,31 @@ const SearchPageContent = () => {
           router.push("/search");
         }
       }
-    }, 500); // 500ms delay
+    }, 500);
 
     return () => clearTimeout(debounceTimeout);
   }, [query, currentQuery, router]);
 
-  // 3. FETCH EFFECT: Triggers immediately when the URL changes
+  // FETCH EFFECT: Triggers when the URL changes
   useEffect(() => {
     const trimmed = currentQuery.trim();
 
-    // Enforce 3 character minimum for actual fetching
     if (!trimmed || trimmed.length < 3) {
-      setResults([]);
-      setLoading(false);
       return;
     }
 
-    if (cachedResults[trimmed]) {
-      setResults(cachedResults[trimmed]);
-      return;
-    }
+    let ignore = false; // Used to prevent race conditions if the user types quickly
 
     const fetchResults = async () => {
+      // Check cache first
+      if (cachedResults.current[trimmed]) {
+        if (!ignore) {
+          setResults(cachedResults.current[trimmed]);
+          setLoading(false);
+        }
+        return;
+      }
+
       setLoading(true);
 
       try {
@@ -68,21 +81,27 @@ const SearchPageContent = () => {
 
         const data = await response.json();
         const items = data?.data || [];
-        setResults(items);
-        setCachedResults((prev) => ({ ...prev, [trimmed]: items }));
+
+        if (!ignore) {
+          setResults(items);
+          cachedResults.current[trimmed] = items; // Update cache ref safely
+        }
       } catch (error) {
         console.error("Search failed", error);
-        setResults([]);
+        if (!ignore) setResults([]);
       } finally {
-        setLoading(false);
+        if (!ignore) setLoading(false);
       }
     };
 
     fetchResults();
-    // Removed cachedResults from dependency array to prevent infinite re-fetching loops
-  }, [currentQuery]);
 
-  // 4. Handle manual Enter/Submit
+    return () => {
+      ignore = true; // Cleanup to ignore stale responses on subsequent fetches
+    };
+  }, [currentQuery]); // cachedResults is a ref, so it is safely omitted here
+
+  // Handle manual Enter/Submit
   const handleSubmit = (e) => {
     e.preventDefault();
     const trimmedQuery = query.trim();
