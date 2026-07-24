@@ -61,10 +61,10 @@ const Card = ({ data }) => {
         </h2>
 
         <div className="mt-1 flex items-center justify-between text-sm text-neutral-500 font-medium">
-          <span className="text-neutral-500">Post ID: #{postData.videoId}</span>
-          <span className="font-medium flex items-center gap-0.5 text-neutral-500 text-sm transition group-hover:translate-x-1 ">
+          <div className="text-neutral-500">Post ID: #{postData.videoId}</div>
+          <div className="font-medium flex items-center gap-0.5 text-neutral-500 text-sm transition group-hover:translate-x-1 ">
             view post <ArrowRight size={17} />
-          </span>
+          </div>
         </div>
       </div>
     </Link>
