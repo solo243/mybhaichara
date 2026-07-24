@@ -26,7 +26,7 @@ const Card = ({ data }) => {
   return (
     <Link
       href={{
-        pathname: `/post/${data._id}`,
+        pathname: `/post/${data._id}/${slug}`,
       }}
       prefetch={true}
       className="group md:mb-6 mb-2 cursor-pointer block w-full overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
@@ -50,19 +50,19 @@ const Card = ({ data }) => {
           </div>
         )}
 
-        <div className="absolute bottom-3 right-3 rounded bg-black/70 px-3 py-0.5 text-[13px] font-medium text-white backdrop-blur">
+        <h5 className="absolute bottom-3 right-3 rounded bg-black/70 px-3 py-0.5 text-[13px] font-medium text-white backdrop-blur">
           {postData.duration || "NA"}
-        </div>
+        </h5>
       </div>
 
       <div className="mt-1 py-2">
-        <h3 className="line-clamp-2 min-h-[2.6rem] font-semibold leading-snug text-white sm:text-[16px]">
+        <h2 className="line-clamp-2 min-h-[2.6rem] font-semibold leading-snug text-white sm:text-[16px]">
           {postData.title}
-        </h3>
+        </h2>
 
         <div className="mt-1 flex items-center justify-between text-sm text-neutral-500 font-medium">
-          <span>Post ID: #{postData.videoId}</span>
-          <span className="font-medium flex items-center gap-0.5 text-sm transition group-hover:translate-x-1 ">
+          <span className="text-neutral-500">Post ID: #{postData.videoId}</span>
+          <span className="font-medium flex items-center gap-0.5 text-neutral-500 text-sm transition group-hover:translate-x-1 ">
             view post <ArrowRight size={17} />
           </span>
         </div>

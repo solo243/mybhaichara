@@ -1,7 +1,19 @@
+// app/sitemap.js
 export default async function sitemap() {
   const baseUrl = "https://leaftv.fun";
 
-  // 1. Static Pages
+  // 1. Helper function to create the clean URL text
+  const slugify = (value) => {
+    if (!value) return "video";
+    return value
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-]/g, "")
+      .replace(/-+/g, "-");
+  };
+
+  // 2. Static Pages
   const staticRoutes = [
     {
       url: `${baseUrl}`,
@@ -23,35 +35,36 @@ export default async function sitemap() {
     },
   ];
 
-  // 2. Dynamic Post Pages
+  // 3. Dynamic Post Pages
   let postRoutes = [];
 
   try {
-    // Fetch data from your home API endpoint
-    const response = await fetch(`${baseUrl}/api/home`, {
-      // Cache this for 1 hour so Googlebot doesn't spam your API
-      // next: { revalidate: 3600 },
-    });
+    const response = await fetch(`${baseUrl}/api/home`);
 
     if (response.ok) {
       const result = await response.json();
 
-      // Check if success is true and data array exists
       if (result.success && result.data) {
-        postRoutes = result.data.map((video) => ({
-          // Using the slug from your JSON for the URL
-          url: `${baseUrl}/post/${video.slug}`,
-          // Using the updatedAt field from your JSON
-          lastModified: new Date(video.updatedAt),
-          changeFrequency: "weekly",
-          priority: 0.8,
-        }));
+        postRoutes = result.data.map((video) => {
+          
+          // FIX: Generate the slug from the title, and grab the ID
+          const slug = slugify(video.title);
+          const id = video._id || video.id;
+
+          return {
+            // This now creates the perfect /post/12345/video-title URL
+            url: `${baseUrl}/post/${id}/${slug}`,
+            lastModified: new Date(video.updatedAt || new Date()),
+            changeFrequency: "weekly",
+            priority: 0.8,
+          };
+        });
       }
     }
   } catch (error) {
     console.error("Failed to fetch videos for sitemap:", error);
   }
 
-  // 3. Return the combined routes
+  // 4. Return the combined routes
   return [...staticRoutes, ...postRoutes];
 }

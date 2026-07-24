@@ -5,6 +5,29 @@ import { getRecommendedVideos, getVideoById } from "@/lib/FetchVideo";
 import CardContiner from "@/components/CardContiner";
 import VideoPlayer from "@/components/VideoPlayer";
 
+export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
+  const data = await getVideoById(resolvedParams.id);
+
+  if (!data) {
+    return { title: "Video Not Found" };
+  }
+
+  const title = data.title;
+  const description = `Watch ${title} on LeafTV. High quality, fast streaming, and more recommended videos.`;
+
+  return {
+    title: title,
+    description: description,
+
+    openGraph: {
+      title: title,
+      description: description,
+      type: "video.movie",
+    },
+  };
+}
+
 const PostPage = async ({ params }) => {
   const resolvedParams = await params;
   const videoId = resolvedParams.id;
