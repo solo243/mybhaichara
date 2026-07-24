@@ -37,11 +37,13 @@ export default function AboutPage() {
             <div className="mt-4 rounded-lg border border-gray-800  p-4">
               <p className="font-medium text-white">Content Removal Email</p>
               <a
-                href="mailto:stagepass7@gmail.com
+                href="mailto:hisolo243@proton.me
+
 "
                 className="text-blue-400 hover:text-blue-300"
               >
-                stagepass7@gmail.com
+                hisolo243@proton.me
+
               </a>
             </div>
           </section>
@@ -63,11 +65,11 @@ export default function AboutPage() {
             <p>
               For general inquiries or content removal requests, email us at{" "}
               <a
-                href="mailto:stagepass7@gmail.com
+                href="mailto:hisolo243@proton.me
 "
                 className="text-blue-400 hover:text-blue-300"
               >
-                stagepass7@gmail.com
+hisolo243@proton.me 
               </a>
               .
             </p>
