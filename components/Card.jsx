@@ -6,7 +6,7 @@ import React from "react";
 const Card = ({ data }) => {
   const postData = {
     title: data?.title || "Title is not available aginat",
-    img_url: data?.img_url || "",
+    post_url: data?.homepage_thumbnail || "",
     videos: data?.extracted_media?.direct_videos || [],
     id: data?.id || "NA",
     duration: data?.duration || "NA",
@@ -35,7 +35,7 @@ const Card = ({ data }) => {
       <div className="relative w-full h-48 overflow-hidden sm:h-52">
         {postData.img_url ? (
           <Image
-            src={postData.img_url}
+            src={img_url.img_url}
             // src="https://viralkand.com/wp-content/uploads/desi-girlfriend-mms-1.jpg"
             alt={postData.title}
             fill
