@@ -61,7 +61,7 @@ const VideoPlayer = ({ videos, title, children }) => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-4">
+    <div className="w-full flex flex-col">
       
       {/* 
         Player Container 
@@ -69,12 +69,12 @@ const VideoPlayer = ({ videos, title, children }) => {
         the custom player perfectly stretches to fill our responsive wrapper, 
         automatically handling both horizontal and vertical videos cleanly.
       */}
-      <div className="relative w-full aspect-video max-h-[80vh] bg-black rounded-xl overflow-hidden shadow-2xl border border-neutral-800 [&_.plyr]:h-full [&_.plyr]:w-full">
+      <div className="relative w-full aspect-video max-h-[80vh] bg-black rounded-xl overflow-hidden shadow-2xl  [&_.plyr]:h-full [&_.plyr]:w-full">
         <PlyrPlayer source={plyrSource} options={plyrOptions} />
       </div>
 
       {/* Metadata and Controls Layout */}
-      <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 px-2 md:px-0">
+      <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4  md:px-0">
         {/* Left Side: Title and Children (Passed from PostPage) */}
         <div className="flex-1 w-full">
           {children}
@@ -84,7 +84,7 @@ const VideoPlayer = ({ videos, title, children }) => {
         <div className="flex flex-col sm:flex-row lg:flex-col items-start sm:items-center lg:items-end gap-4 lg:w-[40%]">
           
           {/* Action Buttons */}
-          <div className="flex items-center gap-2 w-full sm:w-auto lg:mt-6">
+          <div className="flex items-center gap-6 w-full sm:w-auto lg:mt-6">
             <ShareButton />
           </div>
 
