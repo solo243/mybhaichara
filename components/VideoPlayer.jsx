@@ -34,7 +34,6 @@ const VideoPlayer = ({ videos, title, children }) => {
     );
   }
 
-  // 3. Configure the exact custom controls you want
   const plyrOptions = {
     controls: [
       "play-large",   // The large play button in the center
@@ -47,7 +46,17 @@ const VideoPlayer = ({ videos, title, children }) => {
       "pip",          // Picture-in-picture mode
       "fullscreen",   // Toggle fullscreen
     ],
+    clickToPlay: true,
+    // ADD THIS BLOCK:
+    fullscreen: {
+      enabled: true,
+      fallback: true,
+      iosNative: true, // This is the magic line for iPhones/iPads!
+    },
+    // Optional but recommended for iOS:
+    playsinline: true,
   };
+
 
   const plyrSource = {
     type: "video",
