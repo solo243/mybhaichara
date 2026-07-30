@@ -1,78 +1,117 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
+
+// 1. Import the official Plyr CSS for beautiful default custom controls
+import "plyr/dist/plyr.css";
+
 import ShareButton from "./ShareButton";
 
-const fixVideoUrl = (url) => {
-  if (!url) return "";
-  if (url.includes("lulustream.com/") && !url.includes("lulustream.com/e/")) {
-    return url.replace("lulustream.com/", "lulustream.com/e/");
+// 2. Next.js App Router requires custom video players to be dynamically imported 
+// so they don't break Server-Side Rendering (SSR) by looking for the 'document' object.
+const PlyrPlayer = dynamic(
+  () => import("plyr-react").then((mod) => mod.Plyr || mod.default),
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center w-full h-full bg-neutral-900">
+        
+        <span className="text-neutral-500 font-medium animate-pulse">Loading Player...</span>
+      </div>
+    )
   }
-    if (url.includes("https://vidara.to/") && !url.includes("https://vidara.to/e/")) {
-    return url.replace("https://vidara.to/", "https://vidara.to/e/");
-  }
-  
-  return url;
-};
+);
 
 const VideoPlayer = ({ videos, title, children }) => {
   const [activeUrl, setActiveUrl] = useState(videos?.[0] || "");
 
   if (!activeUrl) {
     return (
-      <>
-        <div className="flex items-center justify-center w-full aspect-video max-h-[85vh] bg-neutral-900 shadow-2xl">
-          <p className="text-neutral-500">Video source not found.</p>
-        </div>
-        {children}
-      </>
+      <div className="flex items-center justify-center w-full aspect-video bg-neutral-900 rounded-xl border border-neutral-800">
+        <p className="text-neutral-500 font-medium">Video file not found.</p>
+      </div>
     );
   }
 
-  const formattedUrl = fixVideoUrl(activeUrl);
+  // 3. Configure the exact custom controls you want
+  const plyrOptions = {
+    controls: [
+      "play-large",   // The large play button in the center
+      "play",         // Play/pause playback
+      "progress",     // The timeline scrubber
+      "current-time", // The current time of playback
+      "mute",         // Toggle mute
+      "volume",       // Volume slider
+      "settings",     // Settings menu (speed, quality)
+      "pip",          // Picture-in-picture mode
+      "fullscreen",   // Toggle fullscreen
+    ],
+  };
+
+  const plyrSource = {
+    type: "video",
+    title: title,
+    sources: [
+      {
+        src: activeUrl,
+        type: "video/mp4", 
+      },
+    ],
+  };
 
   return (
-    <div className="w-full">
-      {/* 1. The Video Player */}
-      <div className="flex items-center justify-center w-full aspect-video max-h-[85vh] overflow-hidden bg-neutral-900 shadow-2xl">
-        <iframe
-          src={formattedUrl}
-          title={title}
-          className="w-full h-full"
-          frameBorder="0"
-          allow="autoplay; fullscreen"
-          allowFullScreen
-        ></iframe>
+    <div className="w-full flex flex-col gap-4">
+      
+      {/* 
+        Player Container 
+        The Tailwind classes `[&_.plyr]:h-full [&_.plyr]:w-full` ensure 
+        the custom player perfectly stretches to fill our responsive wrapper, 
+        automatically handling both horizontal and vertical videos cleanly.
+      */}
+      <div className="relative w-full aspect-video max-h-[80vh] bg-black rounded-xl overflow-hidden shadow-2xl border border-neutral-800 [&_.plyr]:h-full [&_.plyr]:w-full">
+        <PlyrPlayer source={plyrSource} options={plyrOptions} />
       </div>
 
-      {/* 2. The Title and Share Buttons (Passed from PostPage) */}
-      {children}
-
-      {/* 3. The Server Buttons (Now rendered below the Share buttons) */}
-      {videos.length > 1 && (
-        <div className="flex flex-col mt-4 mb-4">
-          <span className="text-neutral-400 font-medium mb-1">Servers</span>
-          <div className="flex flex-wrap items-center gap-3">
-            {videos.map((url, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveUrl(url)}
-                className={`px-4 py-1 cursor-pointer rounded font-medium transition-colors ${
-                  activeUrl === url
-                    ? "bg-red-700 text-white"
-                    : "bg-neutral-800 text-neutral-300 hover:bg-neutral-700"
-                }`}
-              >
-                Server {index + 1}
-              </button>
-            ))}
-          </div>
+      {/* Metadata and Controls Layout */}
+      <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 px-2 md:px-0">
+        {/* Left Side: Title and Children (Passed from PostPage) */}
+        <div className="flex-1 w-full">
+          {children}
         </div>
-      )}
-      <div className="flex items-center  gap-2">
-        {/* <DownloadButton videoUrl={videoUrls[0]} /> */}
 
-        <ShareButton />
+        {/* Right Side: Actions and Source selection */}
+        <div className="flex flex-col sm:flex-row lg:flex-col items-start sm:items-center lg:items-end gap-4 lg:w-[40%]">
+          
+          {/* Action Buttons */}
+          <div className="flex items-center gap-2 w-full sm:w-auto lg:mt-6">
+            <ShareButton />
+          </div>
+
+          {/* Optional: Multiple Qualities / Server Selection */}
+          {videos?.length > 1 && (
+            <div className="flex flex-col items-start lg:items-end w-full mt-4 sm:mt-0">
+              <span className="text-xs uppercase tracking-wider text-neutral-500 font-bold mb-2">
+                Available Sources
+              </span>
+              <div className="flex flex-wrap lg:justify-end items-center gap-2">
+                {videos.map((url, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveUrl(url)}
+                    className={`px-4 py-2 text-sm rounded-lg font-medium transition-all duration-200 ${
+                      activeUrl === url
+                        ? "bg-red-600 text-white shadow-lg shadow-red-900/40"
+                        : "bg-neutral-800 text-neutral-400 hover:bg-neutral-700 hover:text-white"
+                    }`}
+                  >
+                    Source {index + 1}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

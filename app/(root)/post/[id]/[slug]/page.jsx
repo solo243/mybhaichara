@@ -49,9 +49,10 @@ const PostPage = async ({ params }) => {
         {/* Pass the Info and Action buttons inside the VideoPlayer */}
         <VideoPlayer videos={videoUrls} title={title}>
           {/* Video Information */}
-          <div className="mt-6">
-            <h1 className="text-2xl line-clamp-4 md:text-3xl font-semibold text-white">
-              {title}
+         {/* Video Information */}
+<div className="mt-6">  {/* <--- Remove or reduce this mt-6 to mt-0 or mt-2 */}
+  <h1 className="text-2xl line-clamp-4 md:text-3xl font-semibold text-white">
+           {title}
             </h1>
             <p className="md:mt-2 mt-1 md:text-lg text-base text-neutral-400">
               Post ID: #{shareCode}

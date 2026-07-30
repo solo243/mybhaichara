@@ -28,3 +28,10 @@ body {
 a, button, [role="button"], input, select, textarea {
   touch-action: manipulation;
 }
+
+/* Add to your global.css to change the scrubber color */
+:root {
+  --plyr-color-main: rgb(220 38 38);
+
+ /* Your custom red color */
+}
