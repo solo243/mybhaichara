@@ -4,7 +4,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="w-full max-w-7xl px-4 mx-auto mt-6 py-10">
+    <div className="max-md:hidden w-full max-w-7xl px-4 mx-auto mt-6 py-10">
       <div className="   md:items-center justify-between flex md:flex-row flex-col ">
         <div>
           <Link href={"/"}>

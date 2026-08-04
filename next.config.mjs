@@ -5,12 +5,18 @@ const nextConfig = {
     unoptimized: true,
   },
   reactCompiler: true,
-  allowedDevOrigins: ["192.168.1.7", "0.0.0.0", "192.168.1.10"],
+  allowedDevOrigins: ["192.168.1.12", "0.0.0.0", "192.168.1.10"],
   images: {
     remotePatterns: [
       {
         protocol: "https",
         hostname: "viralkand.com",
+        port: "",
+        pathname: "**",
+      },
+        {
+        protocol: "https",
+        hostname: "img.clerk.com",
         port: "",
         pathname: "**",
       },

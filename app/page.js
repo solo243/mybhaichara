@@ -1,61 +1,56 @@
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 
-import CardContiner from "@/components/CardContiner";
-import { getRandomHomeVideos } from "@/lib/FetchVideo";
+import PaginationButtons from "@/components/PaginationButton";
+import FetchVideo, { getVideoPage } from "@/lib/FetchVideo";
 
-const Home = async () => {
-  // const getRandomHomeVideos = [];
-  return (
-    <main className="min-h-screen max-w-7xl mx-auto">
-      <div className="items-center flex flex-col">
-        <div className="md:text-5xl text-[26px] font-semibold text-center md:font-semibold mt-10 md:mt-12">
-          Welcome to the Bhaichara
-        </div>
-        <div className="text-center md:mt-2 mt-1 text-neutral-400 max-w-lg mx-auto">
-          Discover Exclusive Nude Videos and Premium Collections from Top Desi
-          Models - 100% Free
-        </div>
-        <Link
-          href={"/explore"}
-          className="text-lg cursor-pointer font-medium hover:shadow-[-7px_7px_0px_#242424] bg-white text-black px-8 py-2.5 mt-6 flex items-center hover:bg-yellowColor mx-auto"
-        >
-          Explore
-          <ArrowRight />
-        </Link>
-      </div>
-
-      <div className="md:mt-14 mt-12">
-        <h1 className="md:text-4xl pb-6 text-[24px] font-semibold ">
-          Trending Videos
-        </h1>
-      </div>
-
-      <Suspense
-        fallback={
-          <div className="text-white text-center mt-10">Loading videos...</div>
-        }
+const LoadingGrid = () => (
+  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    {Array.from({ length: 8 }).map((_, index) => (
+      <div
+        key={index}
+        className="animate-pulse overflow-hidden rounded-xl bg-neutral-900"
       >
-        <HomeVideos />
-      </Suspense>
+        <div className="h-48 bg-neutral-800" />
+        <div className="space-y-3 p-4">
+          <div className="h-4 w-3/4 rounded bg-neutral-800" />
+          <div className="h-4 w-1/2 rounded bg-neutral-800" />
+        </div>
+      </div>
+    ))}
+  </div>
+);
 
-      <div className=" w-full flex items-center mx-auto">
-        <Link
-          href={"/explore"}
-          className="text-lg bg-neutral-900 px-10 py-2 font-semibold w-fit mx-auto mt-8 cursor-pointer hover:border-accent border border-neutral-900"
-        >
-          Show more
-        </Link>
+const Home = async ({ searchParams }) => {
+  const params = await searchParams;
+  const page = Number(params?.page) || 1;
+
+  if (!Number.isInteger(page) || page < 1) {
+    notFound();
+  }
+
+  const { fetchedVideos, totalPages, totalVideos } = await getVideoPage({
+    page,
+    limit: 20,
+  });
+
+  return (
+    <main className="min-h-screen w-full flex">
+      <div className="max-w-7xl py-4 w-full mx-auto">
+        <Suspense fallback={<LoadingGrid />}>
+          <FetchVideo limit={20} page={page} data={fetchedVideos} />
+        </Suspense>
+
+        <div className="mt-4 text-center text-sm text-neutral-400">
+          Page {page} of {totalPages || 1} • {totalVideos} videos
+        </div>
+
+        <div className="pt-10 w-full">
+          <PaginationButtons page={page} total_pages={totalPages || 1} />
+        </div>
       </div>
     </main>
   );
 };
-
-async function HomeVideos() {
-  const videos = await getRandomHomeVideos(20);
-
-  return <CardContiner data={videos} />;
-}
 
 export default Home;

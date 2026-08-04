@@ -125,7 +125,7 @@ const SearchPageContent = () => {
 
           <form
             onSubmit={handleSubmit}
-            className="w-full md:flex items-center max-md:space-y-4 space-x-8"
+            className="w-full flex flex-col md:flex-row items-stretch md:items-center gap-4"
           >
             <input
               type="text"
@@ -136,7 +136,7 @@ const SearchPageContent = () => {
             />
             <button
               type="submit"
-              className="text-2xl cursor-pointer font-semibold py-2.5 text-black bg-white px-8 h-full"
+              className="text-xl cursor-pointer font-semibold py-3 text-black bg-white px-8 md:h-full"
             >
               Search
             </button>
