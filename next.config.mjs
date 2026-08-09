@@ -4,8 +4,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  devIndicators: false,
   reactCompiler: true,
-  allowedDevOrigins: ["192.168.1.12", "0.0.0.0", "192.168.1.10"],
+  allowedDevOrigins: ["192.168.1.13", "0.0.0.0", "192.168.1.10"],
   images: {
     remotePatterns: [
       {
@@ -14,7 +15,7 @@ const nextConfig = {
         port: "",
         pathname: "**",
       },
-        {
+      {
         protocol: "https",
         hostname: "img.clerk.com",
         port: "",

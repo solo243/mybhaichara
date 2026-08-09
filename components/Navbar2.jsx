@@ -17,15 +17,20 @@ const Navbar2 = () => {
             href={"/"}
             className="font-bold cursor-pointer text-white text-2xl md:text-3xl uppercase"
           >
-            bhaichara{" "}
+            bhaichara
             <span className="text-red-600 text-3xl md:text-4xl leading-0">
               .
             </span>
           </Link>
-          <ul c>
+          <ul className="flex items-center space-x-8">
             {DesktopNavbar.map((item, index) => (
-              <li key={index} className="flex ">
-                <span>{item.icon}</span>
+              <li
+                key={index}
+                className="flex  gap-2 items-center  cursor-pointer text-xl font-medium"
+              >
+                <div>
+                  <item.icon size={20} />
+                </div>{" "}
                 {item.label}
               </li>
             ))}

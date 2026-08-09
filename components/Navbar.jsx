@@ -1,6 +1,14 @@
 "use client";
 import { UserButton, useUser, SignInButton } from "@clerk/nextjs";
-import { Search, Home,  User, Compass,  Bell } from "lucide-react";
+import {
+  Search,
+  Home,
+  User,
+  Compass,
+  Bell,
+  NewspaperIcon,
+  User2,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -12,14 +20,18 @@ const Navbar = () => {
   const isActive = (path) => pathname === path;
   const isPostPage = pathname?.startsWith("/post");
 
-  const navItems = [
-    // { href: "/", label: "Home", icon: Home },
+  const NavigationItemDesktop = [
+    { href: "/", label: "Home", icon: Home },
+    { href: "/feed", label: "Feed", icon: Compass },
+    { href: "/search", label: "search", icon: Search },
+  ];
+
+  const NavigationItemMobile = [
     { href: "/", label: "Home", icon: Home },
     { href: "/feed", label: "Feed", icon: Compass },
     { href: "/search", label: "Search", icon: Search },
     { href: "/user", label: "User", icon: User },
   ];
-
   return (
     <>
       {/* Top Navbar */}
@@ -37,8 +49,8 @@ const Navbar = () => {
             </Link>
 
             {/* Desktop links */}
-            <ul className="hidden md:flex uppercase font-semibold text-white items-center">
-              {navItems.map((item) => (
+            <ul className="hidden md:flex space-x-2 uppercase font-semibold text-white items-center">
+              {NavigationItemDesktop.map((item) => (
                 <Link key={item.href} href={item.href}>
                   <li
                     className={`flex items-center gap-2 cursor-pointer px-6 py-2 transition-colors ${
@@ -47,41 +59,28 @@ const Navbar = () => {
                         : "hover:bg-neutral-900"
                     }`}
                   >
+                    <item.icon size={20} />
                     {item.label === "Search" ? (
-                      <Search className="w-5 h-5" />
+                      <Search className="w-4 h-4" />
                     ) : (
                       item.label
                     )}
                   </li>
                 </Link>
               ))}
-              {/* <li className="pl-6">
-                {isSignedIn ? (
-                  <UserButton />
-                ) : (
-                  <SignInButton mode="modal">
-                    <button className="px-4 py-2 bg-red-600 rounded-md text-sm hover:bg-red-700 transition-colors">
-                      Sign In
-                    </button>
-                  </SignInButton>
-                )}
-              </li> */}
-            </ul>
 
-            {/* Mobile top-right: profile or sign in */}
-            {/* <div className="flex items-center gap-4 md:hidden text-white">
-              {isSignedIn ? (
-                <UserButton />
-              ) : (
-                <SignInButton mode="modal">
-                  <button className="px-3 py-1.5 bg-red-600 rounded-md text-xs font-semibold">
-                    Sign In
-                  </button>
-                </SignInButton>
-              )}
-            </div> */}
-            <div className="p-2.5 md:hidden  rounded-full">
-              <Bell size={22} color="white" className="cursor-pointer"/>
+              {/* <div className="p-2.5 ml-2   rounded-full">
+                <Bell size={22} color="white" className="cursor-pointer" />
+              </div> */}
+              <Link
+                href={"/user"}
+                className="flex border ml-2 border-neutral-700  cursor-pointer hover:bg-surface-hover items-center p-2 bg-surface rounded-full"
+              >
+                <User2 size={23} />
+              </Link>
+            </ul>
+            <div className="p-2.5 ml-2 md:hidden   rounded-full">
+              <Bell size={22} color="white" className="cursor-pointer" />
             </div>
           </div>
         </nav>
@@ -91,7 +90,7 @@ const Navbar = () => {
       {!isPostPage && (
         <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-xl border-t border-neutral-800 pb-[env(safe-area-inset-bottom)]">
           <ul className="flex items-center justify-around h-16">
-            {navItems.map((item) => {
+            {NavigationItemMobile.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.href);
               return (
