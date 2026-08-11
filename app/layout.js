@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next";
 import ScrollToTop from "@/components/ScrollTop";
 import { ClerkProvider } from "@clerk/nextjs";
-import Navbar2 from "@/components/Navbar2";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -120,12 +119,14 @@ export default function RootLayout({ children }) {
           />
         </head>
         <body
-          className={`${outfit.className} min-h-full bg-black flex flex-col`}
+          className={`${outfit.className} min-h-screen  bg-background  flex flex-col`}
         >
           <Navbar />
           {/* <Navbar2 /> */}
           <ScrollToTop />
-          <main className="grow px-4 w-full  max-md:pb-28 ">{children}</main>
+          <main className="grow max-md:px-0 px-4 w-full  max-md:pb-28 ">
+            {children}
+          </main>
           <Footer />
           <Analytics />
         </body>

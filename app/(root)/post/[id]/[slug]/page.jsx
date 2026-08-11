@@ -44,15 +44,17 @@ const PostPage = async ({ params }) => {
   const shareCode = data?.videoId || data?._id || "NA";
 
   return (
-    <main className="min-h-screen bg-black md:pt-8 pb-10  md:px-0">
-      <div className="mx-auto max-w-6xl">
+    <main className="min-h-screen bg-background md:pt-8 pb-10  ">
+      <div className="mx-auto max-w-7xl">
         {/* Pass the Info and Action buttons inside the VideoPlayer */}
         <VideoPlayer videos={videoUrls} title={title}>
           {/* Video Information */}
-         {/* Video Information */}
-<div className="mt-6">  {/* <--- Remove or reduce this mt-6 to mt-0 or mt-2 */}
-  <h1 className="text-2xl line-clamp-4 md:text-3xl font-semibold text-white">
-           {title}
+          {/* Video Information */}
+          <div className="mt-6 max-md:px-2">
+            {" "}
+            {/* <--- Remove or reduce this mt-6 to mt-0 or mt-2 */}
+            <h1 className="text-2xl line-clamp-4 md:text-3xl font-semibold text-text-primary">
+              {title}
             </h1>
             <p className="md:mt-2 mt-1 md:text-lg text-base text-neutral-400">
               Post ID: #{shareCode}
@@ -63,7 +65,7 @@ const PostPage = async ({ params }) => {
         {/* Recommendations */}
         {recommendations?.length > 0 && (
           <div className="mt-8">
-            <h2 className="mb-4 text-2xl font-semibold text-white">
+            <h2 className="mb-4 max-md:px-2 text-2xl font-semibold text-text-primary">
               Recommended videos
             </h2>
             <CardContiner data={recommendations} />

@@ -2,7 +2,19 @@
 
 import React, { Suspense, useEffect, useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import CardContiner from "@/components/CardContiner"; // Ensure this spelling matches your file
+import { Search, SearchX, X, TrendingUp } from "lucide-react";
+import CardContiner from "@/components/CardContiner";
+
+// You can change these to match your actual popular categories/tags
+const SUGGESTED_SEARCHES = [
+  "Girlfriend",
+  "Hot",
+  "Biwi",
+  "69526",
+  "39277",
+  "54162",
+  "Chudai",
+];
 
 const SearchPageContent = () => {
   const router = useRouter();
@@ -15,22 +27,18 @@ const SearchPageContent = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // FIX: Use a Ref for caching to avoid infinite loops and dependency warnings.
   const cachedResults = useRef({});
 
-  // FIX: Sync state during render instead of inside useEffect.
-  // This satisfies "You Might Not Need An Effect" and stops cascading renders.
   if (currentQuery !== prevCurrentQuery) {
     setPrevCurrentQuery(currentQuery);
     setQuery(currentQuery);
 
-    // Clear results synchronously if the new query is too short
     if (currentQuery.trim().length < 3) {
       setResults([]);
     }
   }
 
-  // DEBOUNCE EFFECT: Watches user typing and updates URL after 500ms delay
+  // DEBOUNCE EFFECT
   useEffect(() => {
     const trimmed = query.trim();
 
@@ -47,7 +55,7 @@ const SearchPageContent = () => {
     return () => clearTimeout(debounceTimeout);
   }, [query, currentQuery, router]);
 
-  // FETCH EFFECT: Triggers when the URL changes
+  // FETCH EFFECT
   useEffect(() => {
     const trimmed = currentQuery.trim();
 
@@ -55,10 +63,9 @@ const SearchPageContent = () => {
       return;
     }
 
-    let ignore = false; // Used to prevent race conditions if the user types quickly
+    let ignore = false;
 
     const fetchResults = async () => {
-      // Check cache first
       if (cachedResults.current[trimmed]) {
         if (!ignore) {
           setResults(cachedResults.current[trimmed]);
@@ -84,7 +91,7 @@ const SearchPageContent = () => {
 
         if (!ignore) {
           setResults(items);
-          cachedResults.current[trimmed] = items; // Update cache ref safely
+          cachedResults.current[trimmed] = items;
         }
       } catch (error) {
         console.error("Search failed", error);
@@ -97,9 +104,9 @@ const SearchPageContent = () => {
     fetchResults();
 
     return () => {
-      ignore = true; // Cleanup to ignore stale responses on subsequent fetches
+      ignore = true;
     };
-  }, [currentQuery]); // cachedResults is a ref, so it is safely omitted here
+  }, [currentQuery]);
 
   // Handle manual Enter/Submit
   const handleSubmit = (e) => {
@@ -113,49 +120,127 @@ const SearchPageContent = () => {
     }
   };
 
+  // Handle clicking a suggestion pill
+  const handleSuggestionClick = (suggestion) => {
+    setQuery(suggestion);
+    router.push(`/search?query=${encodeURIComponent(suggestion)}`);
+  };
+
+  // Handle clearing the search bar
+  const clearSearch = () => {
+    setQuery("");
+    router.push("/search");
+  };
+
   const isUnderThreeChars = query.trim().length > 0 && query.trim().length < 3;
 
   return (
-    <main className="w-full min-h-screen bg-black md:px-2">
-      <div className="md:pt-10 pt-4 max-w-7xl mx-auto">
-        <div className="md:space-y-6 space-y-4">
-          <h1 className="md:text-3xl font-semibold text-2xl text-white">
-            Find your next Video here
+    <main className="w-full min-h-screen bg-background md:px-4 px-2 pb-20">
+      <div className="md:pt-16 pt-8 max-w-7xl mx-auto flex flex-col items-center">
+        {/* Header & Search Bar Container */}
+        <div className="w-full max-w-4xl text-center space-y-6">
+          <h1 className="md:text-4xl text-3xl font-bold text-text-primary tracking-tight">
+            Find your next video
           </h1>
 
           <form
             onSubmit={handleSubmit}
-            className="w-full flex flex-col md:flex-row items-stretch md:items-center gap-4"
+            className="w-full flex flex-col md:flex-row items-stretch md:items-center gap-3 pt-4"
           >
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="border border-neutral-800 md:text-xl text-lg text-white outline-none px-4 py-3 max-w-3xl w-full bg-transparent"
-              placeholder="search video, id, tag here..."
-            />
+            <div className="relative flex-1 group">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary w-5 h-5 transition-colors group-focus-within:text-primary" />
+
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="w-full bg-surface border border-border text-text-primary outline-none px-4 py-4 pl-12 pr-12    transition-all md:text-lg shadow-sm placeholder:text-text-secondary"
+                placeholder="Search by title, category, or tags..."
+              />
+
+              {/* Clear (X) Button - Only shows when there is text */}
+              {query && (
+                <button
+                  type="button"
+                  onClick={clearSearch}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary transition-colors p-1  hover:bg-surface-hover"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              )}
+            </div>
+
             <button
               type="submit"
-              className="text-xl cursor-pointer font-semibold py-3 text-black bg-white px-8 md:h-full"
+              className="md:w-auto w-full flex items-center justify-center gap-2 text-lg cursor-pointer font-semibold py-4 text-background bg-text-primary px-10  transition-all hover:scale-[1.02] hover:shadow-lg active:scale-95"
             >
               Search
             </button>
           </form>
+
+          {/* Suggested Searches / Trending Tags */}
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+            <span className="flex items-center gap-1.5 text-sm text-text-secondary font-medium mr-2">
+              <TrendingUp className="w-4 h-4" /> Suggestions:
+            </span>
+            {SUGGESTED_SEARCHES.map((suggestion) => (
+              <button
+                key={suggestion}
+                onClick={() => handleSuggestionClick(suggestion)}
+                className="px-4 py-1.5 text-sm font-medium text-text-primary bg-surface border border-border rounded-full hover:bg-surface-hover hover:border-text-secondary transition-all active:scale-95 whitespace-nowrap"
+              >
+                {suggestion}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="pt-14">
+        {/* Results Area */}
+        <div className="w-full pt-12">
           {loading ? (
-            <p className="text-white text-xl">Searching...</p>
+            // Modern Centered Loading State
+            <div className="flex flex-col items-center justify-center py-20">
+              <div className="w-12 h-12 rounded-full border-4 border-surface border-b-primary animate-spin mb-4"></div>
+              <p className="text-text-secondary font-medium text-lg">
+                Searching...
+              </p>
+            </div>
           ) : isUnderThreeChars ? (
-            <p className="text-neutral-400 text-xl mt-8">
-              Please enter at least 3 characters to search...
-            </p>
+            // Type More Prompt
+            <div className="flex flex-col items-center justify-center py-20 text-center space-y-3">
+              <div className="p-4 bg-surface rounded-full text-text-secondary">
+                <Search className="w-8 h-8" />
+              </div>
+              <p className="text-text-secondary text-lg">
+                Please enter at least{" "}
+                <span className="font-semibold text-text-primary">
+                  3 characters
+                </span>{" "}
+                to search.
+              </p>
+            </div>
           ) : currentQuery && results.length === 0 ? (
-            <p className="text-white text-xl mt-8">
-              No videos found for {currentQuery}
-            </p>
+            // No Results State
+            <div className="flex flex-col items-center justify-center py-20 text-center space-y-3">
+              <div className="p-4 bg-surface rounded-full text-text-secondary mb-2">
+                <SearchX className="w-8 h-8" />
+              </div>
+              <h3 className="text-text-primary text-xl font-semibold">
+                No videos found
+              </h3>
+              <p className="text-text-secondary text-lg max-w-md">
+                We couldn't find anything matching "
+                <span className="text-text-primary font-medium">
+                  {currentQuery}
+                </span>
+                ". Try searching with different keywords.
+              </p>
+            </div>
           ) : (
-            <CardContiner data={results} />
+            // Search Results Grid
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <CardContiner data={results} />
+            </div>
           )}
         </div>
       </div>
@@ -166,8 +251,9 @@ const SearchPageContent = () => {
 const SearchPage = () => (
   <Suspense
     fallback={
-      <main className="min-h-screen bg-black px-4 py-10 text-white">
-        Loading search...
+      <main className="min-h-screen bg-background flex flex-col items-center justify-center text-text-secondary">
+        <div className="w-10 h-10 rounded-full border-4 border-surface border-b-primary animate-spin mb-4"></div>
+        <p>Loading search module...</p>
       </main>
     }
   >

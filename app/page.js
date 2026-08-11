@@ -9,7 +9,7 @@ const LoadingGrid = () => (
     {Array.from({ length: 8 }).map((_, index) => (
       <div
         key={index}
-        className="animate-pulse overflow-hidden rounded-xl bg-neutral-900"
+        className="animate-pulse overflow-hidden  rounded-xl bg-background"
       >
         <div className="h-48 bg-neutral-800" />
         <div className="space-y-3 p-4">
@@ -43,7 +43,7 @@ const Home = async ({ searchParams }) => {
           <FetchVideo limit={20} page={page} data={fetchedVideos} />
         </Suspense>
 
-        <div className="mt-4 text-center text-sm text-neutral-400">
+        <div className="mt-12 text-center text-sm text-neutral-400">
           Page {page} of {totalPages || 1} • {totalVideos} videos
         </div>
 

@@ -1,6 +1,6 @@
 export default function AboutPage() {
   return (
-    <main className="min-h-screen  text-white">
+    <main className="min-h-screen   text-white">
       <div className="mx-auto max-w-4xl px-6 py-16">
         <h1 className="text-4xl font-bold mb-6">About Bhaichara</h1>
 
@@ -43,7 +43,6 @@ export default function AboutPage() {
                 className="text-blue-400 hover:text-blue-300"
               >
                 hisolo243@proton.me
-
               </a>
             </div>
           </section>
@@ -69,7 +68,7 @@ export default function AboutPage() {
 "
                 className="text-blue-400 hover:text-blue-300"
               >
-hisolo243@proton.me 
+                hisolo243@proton.me
               </a>
               .
             </p>

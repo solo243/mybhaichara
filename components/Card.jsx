@@ -29,14 +29,13 @@ const Card = ({ data }) => {
         pathname: `/post/${data._id}/${slug}`,
       }}
       prefetch={true}
-      className="group md:mb-6 mb-2 cursor-pointer block w-full overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
+      className="group md:mb-4  cursor-pointer block w-full overflow-hidden transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
     >
       {/* Added w-full to ensure the relative container has width */}
-      <div className="relative w-full h-48 overflow-hidden sm:h-52">
+      <div className="relative w-full md:h-47 h-50 overflow-hidden ">
         {postData.img_url ? (
           <Image
             src={postData.img_url}
-            // src="https://viralkand.com/wp-content/uploads/desi-girlfriend-mms-1.jpg"
             alt={postData.title}
             fill
             loading="lazy"
@@ -45,24 +44,26 @@ const Card = ({ data }) => {
             className="object-cover transition duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-fuchsia-600 via-violet-600 to-slate-900 text-sm font-semibold text-white">
+          <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-fuchsia-600 via-violet-600 to-slate-900 text-sm font-semibold text-text-primary">
             No preview available
           </div>
         )}
 
-        <h5 className="absolute bottom-3 right-3 rounded bg-black/70 px-3 py-0.5 text-[13px] font-medium text-white backdrop-blur">
+        <h5 className="absolute bottom-3 right-3 rounded bg-black/70 px-3 py-0.5 text-[13px] font-medium text-text-primary backdrop-blur">
           {postData.duration || "NA"}
         </h5>
       </div>
 
-      <div className="mt-1 py-2">
-        <h2 className="line-clamp-2 min-h-[2.6rem] font-semibold leading-snug text-white sm:text-[16px]">
+      <div className="mt-1  max-md:px-2  py-2">
+        <h2 className="line-clamp-2  font-semibold leading-snug text-text-primary sm:text-[16px]">
           {postData.title}
         </h2>
 
-        <div className="mt-1 flex items-center justify-between text-sm text-neutral-500 font-medium">
-          <div className="text-neutral-500">Post ID: #{postData.videoId}</div>
-          <div className="font-medium flex items-center gap-0.5 text-neutral-500 text-sm transition group-hover:translate-x-1 ">
+        <div className="mt-1 flex items-center justify-between text-sm text-text-secondary font-medium">
+          <div className="text-text-secondary">
+            Post ID: #{postData.videoId}
+          </div>
+          <div className="font-medium flex items-center gap-0.5 text-text-secondary text-sm transition group-hover:translate-x-1 ">
             view post <ArrowRight size={17} />
           </div>
         </div>
