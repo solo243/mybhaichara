@@ -59,7 +59,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Search Bar */}
-          <div className="hidden lg:flex flex-1 w-full max-w-4xl mx-8 items-center px-4 h-10 bg-surface border border-border  overflow-hidden transition-all  ">
+          <div className="hidden  lg:flex flex-1 w-full max-w-2xl mx-8 items-center px-4 h-10 bg-surface border border-border  overflow-hidden transition-all  ">
             <Search className="text-text-secondary w-5 h-5 mr-2" />
             <input
               type="text"

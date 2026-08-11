@@ -1,6 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "leaftv.fun", // Matches non-www traffic
+          },
+        ],
+        destination: "https://www.leaftv.fun/:path*", // Redirects to www
+        permanent: true, // 301 Permanent Redirect for SEO
+      },
+    ];
+  },
   images: {
     unoptimized: true,
   },

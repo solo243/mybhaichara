@@ -1,19 +1,26 @@
 // app/sitemap.js
+
+import { connectDB } from "@/lib/mongooseConnect";
+import mongoose from "mongoose";
+
+// Cache/revalidate the generated sitemap every 12 hours (43,200 seconds)
+export const revalidate = 43200;
+
 export default async function sitemap() {
-  const baseUrl = "https://www.leaftv.fun";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.leaftv.fun";
 
-  // 1. Helper function to create the clean URL text
-  const slugify = (value) => {
-    if (!value) return "video";
-    return value
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, "-")
-      .replace(/[^a-z0-9-]/g, "")
-      .replace(/-+/g, "-");
-  };
+  // Helper function to create clean, SEO-friendly slugs
+  const slugify = (text) =>
+    text
+      ? String(text)
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "")
+          .replace(/-+/g, "-")
+      : "video";
 
-  // 2. Static Pages
+  // 1. Static Pages
   const staticRoutes = [
     {
       url: `${baseUrl}`,
@@ -35,35 +42,35 @@ export default async function sitemap() {
     },
   ];
 
-  // 3. Dynamic Post Pages
+  // 2. Dynamic Video Routes
   let postRoutes = [];
 
   try {
-    const response = await fetch(`${baseUrl}/api/home`);
+    await connectDB();
+    const db = mongoose.connection.db;
+    const videoCollection = db.collection("bhaicharas");
 
-    if (response.ok) {
-      const result = await response.json();
+    // OPTIMIZATION: Projection retrieves ONLY _id, title, and updatedAt fields
+    // This reduces payload memory overhead and makes the DB query instant
+    const rawVideos = await videoCollection
+      .find({}, { projection: { _id: 1, title: 1, name: 1, updatedAt: 1 } })
+      .toArray();
 
-      if (result.success && result.data) {
-        postRoutes = result.data.map((video) => {
-          // FIX: Generate the slug from the title, and grab the ID
-          const slug = slugify(video.title);
-          const id = video._id || video.id;
+    postRoutes = rawVideos.map((video) => {
+      const id = video._id.toString();
+      const slug = slugify(video.title || video.name);
 
-          return {
-            // This now creates the perfect /post/12345/video-title URL
-            url: `${baseUrl}/post/${id}/${slug}`,
-            lastModified: new Date(video.updatedAt || new Date()),
-            changeFrequency: "weekly",
-            priority: 0.8,
-          };
-        });
-      }
-    }
+      return {
+        url: `${baseUrl}/post/${id}/${slug}`,
+        lastModified: video.updatedAt ? new Date(video.updatedAt) : new Date(),
+        changeFrequency: "weekly",
+        priority: 0.8,
+      };
+    });
   } catch (error) {
-    console.error("Failed to fetch videos for sitemap:", error);
+    console.error("Sitemap generation error:", error);
   }
 
-  // 4. Return the combined routes
+  // Combine static and dynamic routes
   return [...staticRoutes, ...postRoutes];
 }
