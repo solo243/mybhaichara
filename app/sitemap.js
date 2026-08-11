@@ -1,6 +1,6 @@
 // app/sitemap.js
 export default async function sitemap() {
-  const baseUrl = "https://leaftv.fun";
+  const baseUrl = "https://www.leaftv.fun";
 
   // 1. Helper function to create the clean URL text
   const slugify = (value) => {
@@ -46,7 +46,6 @@ export default async function sitemap() {
 
       if (result.success && result.data) {
         postRoutes = result.data.map((video) => {
-          
           // FIX: Generate the slug from the title, and grab the ID
           const slug = slugify(video.title);
           const id = video._id || video.id;
