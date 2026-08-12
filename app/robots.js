@@ -1,4 +1,5 @@
 export default function robots() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.leaftv.fun";
   return {
     rules: [
       {
@@ -11,6 +12,6 @@ export default function robots() {
         disallow: ["/"],
       },
     ],
-    sitemap: "https://www.leaftv.fun/sitemap.xml",
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }
