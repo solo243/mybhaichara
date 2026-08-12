@@ -15,13 +15,12 @@ const nextConfig = {
       },
     ];
   },
-  images: {
-    unoptimized: true,
-  },
+
   devIndicators: false,
   reactCompiler: true,
   allowedDevOrigins: ["192.168.1.13", "0.0.0.0", "192.168.1.10"],
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
