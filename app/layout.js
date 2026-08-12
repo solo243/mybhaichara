@@ -12,7 +12,7 @@ const outfit = Outfit({
 });
 
 // ALWAYS use your primary canonical domain (with www if your main site uses www)
-const SITE_URL = "https://www.leaftv.fun";
+const SITE_URL = "https://leaftv.fun";
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),

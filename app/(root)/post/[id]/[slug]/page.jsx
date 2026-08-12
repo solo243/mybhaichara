@@ -5,7 +5,7 @@ import { getRecommendedVideos, getVideoById } from "@/lib/FetchVideo";
 import CardContiner from "@/components/CardContiner";
 import VideoPlayer from "@/components/VideoPlayer";
 
-const SITE_URL = "https://www.leaftv.fun";
+const SITE_URL = "https://leaftv.fun";
 
 // Helper function: Converts "2:57" or "1:02:30" to ISO 8601 duration "PT2M57S" / "PT1H2M30S"
 function parseIsoDuration(durationStr) {

@@ -7,10 +7,10 @@ const nextConfig = {
         has: [
           {
             type: "host",
-            value: "leaftv.fun", // Matches non-www traffic
+            value: "www.leaftv.fun", // Matches non-www traffic
           },
         ],
-        destination: "https://www.leaftv.fun/:path*", // Redirects to www
+        destination: "https://leaftv.fun/:path*", // Redirects to www
         permanent: true, // 301 Permanent Redirect for SEO
       },
     ];

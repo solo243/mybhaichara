@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 export const revalidate = 43200;
 
 export default async function sitemap() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.leaftv.fun"; // match real domain
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://leaftv.fun"; // match real domain
 
   // Helper function to create clean, SEO-friendly slugs
   const slugify = (text) =>
