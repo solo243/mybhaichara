@@ -11,7 +11,6 @@ const outfit = Outfit({
   weight: ["400", "500", "600", "700"],
 });
 
-// ALWAYS use your primary canonical domain (with www if your main site uses www)
 const SITE_URL = "https://leaftv.fun";
 
 export const metadata = {
