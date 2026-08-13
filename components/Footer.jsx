@@ -9,14 +9,14 @@ const Footer = () => {
         <div>
           <Link href={"/"}>
             <h1 className="font-bold cursor-pointer text-text-primary text-2xl md:text-3xl uppercase">
-              bhaichara{" "}
+              Leaftv{" "}
               <span className="text-primary text-3xl md:text-4xl leading-0">
                 .
               </span>
             </h1>
           </Link>
           <h3 className="mt-1  text-neutral-500">
-            © 2025 Bhaichara. All rights reserved.
+            © 2025 Leaftv. All rights reserved.
           </h3>
         </div>
         {/* <ul className="md:flex max-md:mt-4 space-x-8 space-y-3 ">

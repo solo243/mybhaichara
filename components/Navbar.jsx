@@ -51,7 +51,7 @@ const Navbar = () => {
               href={"/"}
               className="font-bold cursor-pointer text-text-primary text-2xl md:text-3xl uppercase"
             >
-              bhaichara{" "}
+              leaftv{" "}
               <span className="text-primary text-3xl md:text-4xl leading-0">
                 .
               </span>

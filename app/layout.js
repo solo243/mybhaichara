@@ -21,15 +21,18 @@ export const metadata = {
   },
 
   title: {
-    default: "Bhaichara | Watch & Share Free Videos",
-    template: "%s | Watch Free on Bhaichara",
+    default: "Leaftv | Watch & Share Free Videos",
+    template: "%s | Watch Free on Leaftv",
   },
 
   description:
-    "Stream, watch, and share free adult videos on Bhaichara. Enjoy high-quality streaming with no subscription or registration required.",
+    "Stream, watch, and share free adult videos on Leaftv. Enjoy high-quality streaming with no subscription or registration required.",
 
   keywords: [
-    "bhaichara",
+    "Leaftv",
+    "leaftv",
+    "leaftv fun",
+    "adult video leaftv",
     "watch free adult videos",
     "free adult video streaming",
     "hd adult movies",
@@ -43,28 +46,28 @@ export const metadata = {
   },
 
   openGraph: {
-    title: "Bhaichara - Watch & Share Free Videos",
+    title: "Leaftv - Watch & Share Free Videos",
     description:
       "Unlimited streaming and sharing of adult videos. No Subscription. Just Play.",
     url: SITE_URL,
-    siteName: "Bhaichara",
+    siteName: "Leaftv",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: "/ogimg.jpg",
+        url: "/ogimg.png",
         width: 1200,
         height: 630,
-        alt: "Bhaichara Free Streaming Website",
+        alt: "Leaftv Free Streaming Website",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Bhaichara | Watch & Share Free Videos",
+    title: "Leaftv | Watch & Share Free Videos",
     description: "Stream and share free adult videos in HD.",
-    images: ["/ogimg.jpg"],
+    images: ["/ogimg.png"],
   },
 
   robots: {
@@ -83,7 +86,7 @@ export const metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Bhaichara",
+  name: "Leaftv",
   url: SITE_URL,
   potentialAction: {
     "@type": "SearchAction",
