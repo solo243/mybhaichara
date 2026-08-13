@@ -2,14 +2,14 @@ export default function AboutPage() {
   return (
     <main className="min-h-screen   text-white">
       <div className="mx-auto max-w-4xl px-6 py-16">
-        <h1 className="text-4xl font-bold mb-6">About Bhaichara</h1>
+        <h1 className="text-4xl font-bold mb-6">About Leaftv</h1>
 
         <div className="space-y-6 text-gray-300 leading-8">
           <p>
-            <span className="font-semibold text-white">Bhaichara</span> is a
-            simple video sharing platform where users can discover and watch
-            videos from various sources in one place. Our goal is to provide a
-            clean, fast, and user-friendly viewing experience.
+            <span className="font-semibold text-white">Leaftv</span> is a simple
+            video sharing platform where users can discover and watch videos
+            from various sources in one place. Our goal is to provide a clean,
+            fast, and user-friendly viewing experience.
           </p>
 
           <section>
@@ -17,10 +17,10 @@ export default function AboutPage() {
               Our Platform
             </h2>
             <p>
-              Bhaichara does <strong>not host or store</strong> video files on
-              our servers. We only render or embed content that is available
-              from third-party sources. All rights to the respective content
-              belong to their original owners.
+              Leaftv does <strong>not host or store</strong> video files on our
+              servers. We only render or embed content that is available from
+              third-party sources. All rights to the respective content belong
+              to their original owners.
             </p>
           </section>
 
@@ -30,7 +30,7 @@ export default function AboutPage() {
             </h2>
             <p>
               If you are the copyright owner or an authorized representative and
-              believe that any content displayed on Bhaichara should be removed,
+              believe that any content displayed on Leaftv should be removed,
               please contact us with the relevant details.
             </p>
 
@@ -52,7 +52,7 @@ export default function AboutPage() {
               Disclaimer
             </h2>
             <p>
-              Bhaichara acts solely as a platform for displaying content from
+              Leaftv acts solely as a platform for displaying content from
               external sources. We do not claim ownership of any third-party
               videos, and all trademarks, logos, and copyrights belong to their
               respective owners.

@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 export const revalidate = 43200;
 
 export default async function sitemap() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://leaftv.fun"; // match real domain
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://leaftv.fun";
 
   // Helper function to create clean, SEO-friendly slugs
   const slugify = (text) =>
@@ -29,12 +29,6 @@ export default async function sitemap() {
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/explore`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-    {
       url: `${baseUrl}/about`,
       lastModified: new Date(),
       changeFrequency: "monthly",
@@ -50,19 +44,29 @@ export default async function sitemap() {
     const db = mongoose.connection.db;
     const videoCollection = db.collection("bhaicharas");
 
-    // OPTIMIZATION: Projection retrieves ONLY _id, title, and updatedAt fields
-    // This reduces payload memory overhead and makes the DB query instant
+    // Fetch up to 10,000 most recent videos (prevents DB timeouts)
     const rawVideos = await videoCollection
-      .find({}, { projection: { _id: 1, title: 1, name: 1, updatedAt: 1 } })
+      .find(
+        {},
+        {
+          projection: { _id: 1, title: 1, name: 1, updatedAt: 1, createdAt: 1 },
+        },
+      )
+      .sort({ updatedAt: -1, createdAt: -1 })
+      .limit(10000)
       .toArray();
 
     postRoutes = rawVideos.map((video) => {
       const id = video._id.toString();
       const slug = slugify(video.title || video.name);
 
+      // Preferred date order: updatedAt -> createdAt -> now
+      const rawDate = video.updatedAt || video.createdAt;
+      const lastModDate = rawDate ? new Date(rawDate) : new Date();
+
       return {
         url: `${baseUrl}/post/${id}/${slug}`,
-        lastModified: video.updatedAt ? new Date(video.updatedAt) : new Date(),
+        lastModified: isNaN(lastModDate.getTime()) ? new Date() : lastModDate,
         changeFrequency: "weekly",
         priority: 0.8,
       };

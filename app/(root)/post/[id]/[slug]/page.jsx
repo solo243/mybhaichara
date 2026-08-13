@@ -33,8 +33,8 @@ export async function generateMetadata({ params }) {
   const slug = resolvedParams.slug || "video";
   const canonicalUrl = `${SITE_URL}/post/${data._id}/${slug}`;
   const videoUrl = data?.videos?.[0] || "";
-  const thumbnailUrl = data?.img_url || `${SITE_URL}/ogimg.jpg`;
-  const description = `Watch ${title} on Bhaichara. High quality, fast streaming, and free online viewing.`;
+  const thumbnailUrl = data?.img_url || `${SITE_URL}/ogimg.png`;
+  const description = `Watch ${title} on Leaftv. High quality, fast streaming, and free online viewing.`;
 
   return {
     title: title,
@@ -80,7 +80,7 @@ const PostPage = async ({ params }) => {
 
   const primaryVideoUrl = videoUrls[0] || "";
   const pageUrl = `${SITE_URL}/post/${data._id}/${slug}`;
-  const thumbnailUrl = data?.img_url || `${SITE_URL}/ogimg.jpg`;
+  const thumbnailUrl = data?.img_url || `${SITE_URL}/ogimg.png`;
   const isoDuration = parseIsoDuration(data?.duration);
 
   // Schema.org VideoObject Structured Data mapped to your database schema
@@ -88,7 +88,7 @@ const PostPage = async ({ params }) => {
     "@context": "https://schema.org",
     "@type": "VideoObject",
     name: title,
-    description: `Watch ${title} online for free on Bhaichara.`,
+    description: `Watch ${title} online for free on Leaftv.`,
     thumbnailUrl: [thumbnailUrl],
     uploadDate: data?.createdAt
       ? new Date(data.createdAt).toISOString()
