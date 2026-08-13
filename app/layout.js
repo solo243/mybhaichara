@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next";
 import ScrollToTop from "@/components/ScrollTop";
 import { ClerkProvider } from "@clerk/nextjs";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -128,6 +129,7 @@ export default function RootLayout({ children }) {
           </main>
           <Footer />
           <Analytics />
+          <SpeedInsights />
         </body>
       </html>
     </ClerkProvider>
