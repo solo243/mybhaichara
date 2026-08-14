@@ -55,7 +55,7 @@ const Card = ({ data }) => {
       </div>
 
       <div className="mt-1  max-md:px-2  py-2">
-        <h2 className="line-clamp-2  font-semibold leading-snug text-text-primary sm:text-[16px]">
+        <h2 className="line-clamp-2  font-semibold  text-text-primary sm:text-[16px]">
           {postData.title}
         </h2>
 
