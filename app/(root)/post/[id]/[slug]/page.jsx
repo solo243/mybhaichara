@@ -117,9 +117,9 @@ const PostPage = async ({ params }) => {
       <div className="mx-auto max-w-7xl">
         <VideoPlayer videos={videoUrls} title={title}>
           <div className="mt-6 max-md:px-2">
-            <div className="text-2xl line-clamp-4 md:text-3xl font-semibold text-text-primary">
+            <h1 className="text-2xl line-clamp-4 md:text-3xl font-semibold text-text-primary">
               {title}
-            </div>
+            </h1>
             <p className="md:mt-2 mt-1 md:text-lg text-base text-neutral-400">
               Post ID: #{shareCode}
             </p>
