@@ -118,7 +118,9 @@ export default function RootLayout({ children }) {
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
           />
+          <title>Leaftv | Watch & Share Free Videos</title>
         </head>
+
         <body
           className={`${outfit.className} min-h-screen bg-background flex flex-col`}
         >

@@ -117,9 +117,9 @@ const PostPage = async ({ params }) => {
       <div className="mx-auto max-w-7xl">
         <VideoPlayer videos={videoUrls} title={title}>
           <div className="mt-6 max-md:px-2">
-            <h1 className="text-2xl line-clamp-4 md:text-3xl font-semibold text-text-primary">
+            <div className="text-2xl line-clamp-4 md:text-3xl font-semibold text-text-primary">
               {title}
-            </h1>
+            </div>
             <p className="md:mt-2 mt-1 md:text-lg text-base text-neutral-400">
               Post ID: #{shareCode}
             </p>
@@ -129,9 +129,9 @@ const PostPage = async ({ params }) => {
         {/* Recommendations */}
         {recommendations?.length > 0 && (
           <div className="mt-8">
-            <h2 className="mb-4 max-md:px-2 text-2xl font-semibold text-text-primary">
+            <div className="mb-4 max-md:px-2 text-2xl font-semibold text-text-primary">
               Recommended videos
-            </h2>
+            </div>
             <CardContiner data={recommendations} />
           </div>
         )}
