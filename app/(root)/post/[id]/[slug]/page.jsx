@@ -81,7 +81,7 @@ const PostPage = async ({ params }) => {
     notFound();
   }
 
-  const recommendations = await getRecommendedVideos(videoId, 8);
+  const recommendations = await getRecommendedVideos(videoId, 12);
   const title = data?.title || "Video title unavailable";
   const videoUrls = data?.videos || [];
   const shareCode = data?.videoId || data?._id || "NA";
