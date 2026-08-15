@@ -8,12 +8,12 @@ const Footer = () => {
       <div className="   md:items-center justify-between flex md:flex-row flex-col ">
         <div>
           <Link href={"/"}>
-            <h1 className="font-bold cursor-pointer text-text-primary text-2xl md:text-3xl uppercase">
+            <div className="font-bold cursor-pointer text-text-primary text-2xl md:text-3xl uppercase">
               Leaftv{" "}
               <span className="text-primary text-3xl md:text-4xl leading-0">
                 .
               </span>
-            </h1>
+            </div>
           </Link>
           <h3 className="mt-1  text-neutral-500">
             © 2025 Leaftv. All rights reserved.
