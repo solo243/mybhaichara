@@ -7,6 +7,16 @@ import VideoPlayer from "@/components/VideoPlayer";
 
 const SITE_URL = "https://leaftv.fun";
 
+function slugify(value) {
+  return String(value || "video")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 // Helper function: Converts "2:57" or "1:02:30" to ISO 8601 duration "PT2M57S" / "PT1H2M30S"
 function parseIsoDuration(durationStr) {
   if (!durationStr) return undefined;
@@ -30,8 +40,7 @@ export async function generateMetadata({ params }) {
   }
 
   const title = data.title || "Free Video";
-  const slug = resolvedParams.slug || "video";
-  const canonicalUrl = `${SITE_URL}/post/${data._id}/${slug}`;
+  const canonicalUrl = `${SITE_URL}/post/${data._id}/${slugify(title)}`;
   const videoUrl = data?.videos?.[0] || "";
   const thumbnailUrl = data?.img_url || `${SITE_URL}/ogimg.png`;
   const description = `Watch ${title} on Leaftv. High quality, fast streaming, and free online viewing.`;
@@ -65,7 +74,6 @@ export async function generateMetadata({ params }) {
 const PostPage = async ({ params }) => {
   const resolvedParams = await params;
   const videoId = resolvedParams.id;
-  const slug = resolvedParams.slug || "video";
 
   const data = await getVideoById(videoId);
 
@@ -79,7 +87,7 @@ const PostPage = async ({ params }) => {
   const shareCode = data?.videoId || data?._id || "NA";
 
   const primaryVideoUrl = videoUrls[0] || "";
-  const pageUrl = `${SITE_URL}/post/${data._id}/${slug}`;
+  const pageUrl = `${SITE_URL}/post/${data._id}/${slugify(title)}`;
   const thumbnailUrl = data?.img_url || `${SITE_URL}/ogimg.png`;
   const isoDuration = parseIsoDuration(data?.duration);
 

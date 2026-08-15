@@ -1,5 +1,8 @@
 export default function robots() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://leaftv.fun";
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://leaftv.fun").replace(
+    /\/$/,
+    "",
+  );
 
   return {
     rules: [

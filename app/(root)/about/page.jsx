@@ -1,3 +1,12 @@
+export const metadata = {
+  title: "About",
+  description:
+    "Learn about Leaftv, a video discovery and viewing platform, and how to contact us about content removal.",
+  alternates: {
+    canonical: "/about",
+  },
+};
+
 export default function AboutPage() {
   return (
     <main className="min-h-screen   text-white">

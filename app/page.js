@@ -4,6 +4,18 @@ import React, { Suspense } from "react";
 import PaginationButtons from "@/components/PaginationButton";
 import FetchVideo, { getVideoPage } from "@/lib/FetchVideo";
 
+export async function generateMetadata({ searchParams }) {
+  const params = await searchParams;
+  const page = Number(params?.page) || 1;
+
+  return {
+    title: page > 1 ? `Latest videos – Page ${page}` : undefined,
+    alternates: {
+      canonical: page > 1 ? `/?page=${page}` : "/",
+    },
+  };
+}
+
 const LoadingGrid = () => (
   <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
     {Array.from({ length: 8 }).map((_, index) => (

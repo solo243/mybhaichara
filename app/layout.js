@@ -17,10 +17,6 @@ const SITE_URL = "https://leaftv.fun";
 export const metadata = {
   metadataBase: new URL(SITE_URL),
 
-  alternates: {
-    canonical: "/",
-  },
-
   title: {
     default: "Leaftv | Watch & Share Free Videos",
     template: "%s | Watch Free on Leaftv",
@@ -112,6 +108,10 @@ export default function RootLayout({ children }) {
           <meta
             name="google-site-verification"
             content="zucoy98lRhLXRncH-YWtrBFIQntWO5YIuJFjlqIyQIk"
+          />
+          <meta
+            name="msvalidate.01"
+            content="98F78FD53BF15D3110DC00676A1C4974"
           />
           {/* JSON-LD Schema */}
           <script
