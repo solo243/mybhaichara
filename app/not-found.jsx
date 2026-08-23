@@ -38,6 +38,11 @@ export default async function NotFound() {
             <span className="text-8xl md:text-9xl font-extrabold tracking-tighter text-neutral-800 select-none">
               404
             </span>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-4xl md:text-5xl font-black bg-linear-to-r from-primary via-orange-500 to-amber-400 bg-clip-text text-transparent drop-shadow-sm">
+                Lost in Stream?
+              </span>
+            </div>
           </div>
 
           <h1 className="text-2xl md:text-3xl font-bold text-text-primary mb-3">
