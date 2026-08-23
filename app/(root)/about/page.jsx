@@ -1,4 +1,5 @@
 export const metadata = {
+  title: "About Us",
   description:
     "Learn about Leaftv, a video discovery and viewing platform, and how to contact us about content removal.",
   alternates: {
@@ -8,11 +9,11 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen   text-white">
+    <div className="min-h-screen text-white">
       <div className="mx-auto max-w-4xl px-6 py-16">
-        <div className="text-4xl font-bold mb-6">About Leaftv</div>
+        <h1 className="text-4xl font-bold mb-6 text-text-primary">About Leaftv</h1>
 
-        <div className="space-y-6 text-gray-300 leading-8">
+        <div className="space-y-6 text-neutral-300 leading-8">
           <p>
             <span className="font-semibold text-white">Leaftv</span> is a simple
             video sharing platform where users can discover and watch videos
@@ -42,13 +43,11 @@ export default function AboutPage() {
               please contact us with the relevant details.
             </p>
 
-            <div className="mt-4 rounded-lg border border-gray-800  p-4">
-              <p className="font-medium text-white">Content Removal Email</p>
+            <div className="mt-4 rounded-lg border border-neutral-800 p-4 bg-surface">
+              <p className="font-medium text-white mb-1">Content Removal Email</p>
               <a
-                href="mailto:hisolo243@proton.me
-
-"
-                className="text-blue-400 hover:text-blue-300"
+                href="mailto:hisolo243@proton.me"
+                className="text-primary hover:underline"
               >
                 hisolo243@proton.me
               </a>
@@ -72,9 +71,8 @@ export default function AboutPage() {
             <p>
               For general inquiries or content removal requests, email us at{" "}
               <a
-                href="mailto:hisolo243@proton.me
-"
-                className="text-blue-400 hover:text-blue-300"
+                href="mailto:hisolo243@proton.me"
+                className="text-primary hover:underline"
               >
                 hisolo243@proton.me
               </a>
@@ -83,6 +81,6 @@ export default function AboutPage() {
           </section>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

@@ -1,35 +1,11 @@
 import { notFound } from "next/navigation";
 import React from "react";
-
 import { getRecommendedVideos, getVideoById } from "@/lib/FetchVideo";
 import CardContiner from "@/components/CardContiner";
 import VideoPlayer from "@/components/VideoPlayer";
+import { slugify, parseIsoDuration } from "@/lib/utils";
 
-const SITE_URL = "https://leaftv.fun";
-
-function slugify(value) {
-  return String(value || "video")
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9-]/g, "")
-    .replace(/-+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
-// Helper function: Converts "2:57" or "1:02:30" to ISO 8601 duration "PT2M57S" / "PT1H2M30S"
-function parseIsoDuration(durationStr) {
-  if (!durationStr) return undefined;
-  const parts = durationStr.split(":").map(Number);
-  if (parts.length === 2) {
-    const [minutes, seconds] = parts;
-    return `PT${minutes}M${seconds}S`;
-  } else if (parts.length === 3) {
-    const [hours, minutes, seconds] = parts;
-    return `PT${hours}H${minutes}M${seconds}S`;
-  }
-  return undefined;
-}
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://leaftv.fun").replace(/\/$/, "");
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
@@ -40,10 +16,15 @@ export async function generateMetadata({ params }) {
   }
 
   const title = data.title || "Free Video";
-  const canonicalUrl = `${SITE_URL}/post/${data._id}/${slugify(title)}`;
-  const videoUrl = data?.videos?.[0] || "";
-  const thumbnailUrl = data?.img_url || `${SITE_URL}/ogimg.png`;
-  const description = `Watch ${title} on Leaftv. High quality, fast streaming, and free online viewing.`;
+  const canonicalUrl = `${SITE_URL}/post/${data._id || resolvedParams.id}/${slugify(title)}`;
+  const videoUrls =
+    (data?.videos && data.videos.length > 0 ? data.videos : null) ||
+    data?.extracted_media?.direct_videos ||
+    [];
+  const videoUrl = videoUrls[0] || "";
+  const thumbnailUrl =
+    data?.img_url || data?.homepage_thumbnail || `${SITE_URL}/ogimg.png`;
+  const description = `Watch ${title} online in HD on Leaftv. High quality streaming with no subscription or signup required.`;
 
   return {
     title: title,
@@ -54,10 +35,11 @@ export async function generateMetadata({ params }) {
     },
 
     openGraph: {
-      title: title,
+      title: `${title} | Watch Free on Leaftv`,
       description: description,
       url: canonicalUrl,
       type: "video.movie",
+      siteName: "Leaftv",
       images: [
         {
           url: thumbnailUrl,
@@ -66,7 +48,23 @@ export async function generateMetadata({ params }) {
           alt: title,
         },
       ],
-      videos: videoUrl ? [{ url: videoUrl, type: "video/mp4" }] : [],
+      videos: videoUrl
+        ? [
+            {
+              url: videoUrl,
+              type: "video/mp4",
+              width: 1280,
+              height: 720,
+            },
+          ]
+        : [],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: title,
+      description: description,
+      images: [thumbnailUrl],
     },
   };
 }
@@ -83,39 +81,84 @@ const PostPage = async ({ params }) => {
 
   const recommendations = await getRecommendedVideos(videoId, 12);
   const title = data?.title || "Video title unavailable";
-  const videoUrls = data?.videos || [];
-  const shareCode = data?.videoId || data?._id || "NA";
+  const videoUrls =
+    (data?.videos && data.videos.length > 0 ? data.videos : null) ||
+    data?.extracted_media?.direct_videos ||
+    [];
+  const shareCode = data?.videoId || data?.id || data?._id || "NA";
 
   const primaryVideoUrl = videoUrls[0] || "";
-  const pageUrl = `${SITE_URL}/post/${data._id}/${slugify(title)}`;
-  const thumbnailUrl = data?.img_url || `${SITE_URL}/ogimg.png`;
+  const pageUrl = `${SITE_URL}/post/${data._id || videoId}/${slugify(title)}`;
+  const thumbnailUrl =
+    data?.img_url || data?.homepage_thumbnail || `${SITE_URL}/ogimg.png`;
   const isoDuration = parseIsoDuration(data?.duration);
+  const publishDate = data?.createdAt
+    ? new Date(data.createdAt).toISOString()
+    : new Date().toISOString();
 
-  // Schema.org VideoObject Structured Data mapped to your database schema
+  // 1. Schema.org VideoObject Structured Data for Google Video search rich snippets
   const videoSchema = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
     name: title,
-    description: `Watch ${title} online for free on Leaftv.`,
+    description: `Watch ${title} online in HD on Leaftv.`,
     thumbnailUrl: [thumbnailUrl],
-    uploadDate: data?.createdAt
-      ? new Date(data.createdAt).toISOString()
-      : new Date().toISOString(),
-    duration: isoDuration, // Outputs: "PT2M57S"
-    contentUrl: primaryVideoUrl, // Points to https://mycdn.leaftv.fun/...
+    uploadDate: publishDate,
+    ...(isoDuration ? { duration: isoDuration } : {}),
+    ...(primaryVideoUrl ? { contentUrl: primaryVideoUrl } : {}),
     embedUrl: pageUrl,
+    isFamilyFriendly: false,
+    publisher: {
+      "@type": "Organization",
+      name: "Leaftv",
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/ogimg.png`,
+      },
+    },
+  };
+
+  // 2. Schema.org BreadcrumbList Structured Data for SERP breadcrumb trails
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: SITE_URL,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Videos",
+        item: `${SITE_URL}/search`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: title,
+        item: pageUrl,
+      },
+    ],
   };
 
   return (
-    <main className="min-h-screen bg-background md:pt-8 pb-10">
-      {/* JSON-LD Video Schema injected into DOM for Googlebot */}
+    <div className="min-h-screen bg-background md:pt-8 pb-10">
+      {/* Structured Data: VideoObject + BreadcrumbList */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
 
       <div className="mx-auto max-w-7xl">
-        <VideoPlayer videos={videoUrls} title={title}>
+        <VideoPlayer key={videoId} videos={videoUrls} title={title}>
           <div className="mt-6 max-md:px-2">
             <h1 className="text-2xl line-clamp-4 md:text-3xl font-semibold text-text-primary">
               {title}
@@ -128,15 +171,15 @@ const PostPage = async ({ params }) => {
 
         {/* Recommendations */}
         {recommendations?.length > 0 && (
-          <div className="mt-8">
-            <div className="mb-4 max-md:px-2 text-2xl font-semibold text-text-primary">
+          <div className="mt-12">
+            <h2 className="mb-4 max-md:px-2 text-2xl font-semibold text-text-primary">
               Recommended videos
-            </div>
+            </h2>
             <CardContiner data={recommendations} />
           </div>
         )}
       </div>
-    </main>
+    </div>
   );
 };
 

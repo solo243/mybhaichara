@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
-
 import PaginationButtons from "@/components/PaginationButton";
 import FetchVideo, { getVideoPage } from "@/lib/FetchVideo";
 
@@ -21,9 +20,9 @@ const LoadingGrid = () => (
     {Array.from({ length: 8 }).map((_, index) => (
       <div
         key={index}
-        className="animate-pulse overflow-hidden  rounded-xl bg-background"
+        className="animate-pulse overflow-hidden rounded-xl bg-background"
       >
-        <div className="h-48 bg-neutral-800" />
+        <div className="h-48 bg-neutral-800 rounded-lg" />
         <div className="space-y-3 p-4">
           <div className="h-4 w-3/4 rounded bg-neutral-800" />
           <div className="h-4 w-1/2 rounded bg-neutral-800" />
@@ -34,8 +33,6 @@ const LoadingGrid = () => (
 );
 
 const Home = async ({ searchParams }) => {
-  // await delay(300000);
-
   const params = await searchParams;
   const page = Number(params?.page) || 1;
 
@@ -49,7 +46,7 @@ const Home = async ({ searchParams }) => {
   });
 
   return (
-    <main className="min-h-screen w-full flex">
+    <div className="min-h-screen w-full flex">
       <div className="max-w-7xl py-4 w-full mx-auto">
         <Suspense fallback={<LoadingGrid />}>
           <FetchVideo limit={20} page={page} data={fetchedVideos} />
@@ -63,7 +60,7 @@ const Home = async ({ searchParams }) => {
           <PaginationButtons page={page} total_pages={totalPages || 1} />
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 

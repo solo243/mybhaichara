@@ -10,9 +10,20 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const outfit = Outfit({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-outfit",
 });
 
-const SITE_URL = "https://leaftv.fun";
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL || "https://leaftv.fun"
+).replace(/\/$/, "");
+
+export const viewport = {
+  themeColor: "#e50914",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -23,21 +34,26 @@ export const metadata = {
   },
 
   description:
-    "Stream, watch, and share free adult videos on Leaftv. Enjoy high-quality streaming with no subscription or registration required.",
+    "Stream, watch, and share free videos on Leaftv. Enjoy high-quality HD streaming with zero subscription or registration required.",
 
   keywords: [
     "Leaftv",
     "leaftv",
     "leaftv fun",
-    "adult video leaftv",
-    "watch free adult videos",
-    "free adult video streaming",
-    "hd adult movies",
-    "no sign up adult site",
-    "indian mms",
+    "watch free videos",
+    "free video streaming",
+    "hd movies",
+    "no sign up video site",
+    "online video player",
   ],
 
-  // Google & SafeSearch Adult Rating Metadata
+  verification: {
+    google: "zucoy98lRhLXRncH-YWtrBFIQntWO5YIuJFjlqIyQIk",
+    other: {
+      "msvalidate.01": "98F78FD53BF15D3110DC00676A1C4974",
+    },
+  },
+
   other: {
     rating: "adult",
   },
@@ -45,7 +61,7 @@ export const metadata = {
   openGraph: {
     title: "Leaftv - Watch & Share Free Videos",
     description:
-      "Unlimited streaming and sharing of adult videos. No Subscription. Just Play.",
+      "Unlimited streaming and sharing of videos. No subscription. Just play.",
     url: SITE_URL,
     siteName: "Leaftv",
     locale: "en_US",
@@ -55,7 +71,7 @@ export const metadata = {
         url: "/ogimg.png",
         width: 1200,
         height: 630,
-        alt: "Leaftv Free Streaming Website",
+        alt: "Leaftv Free Video Streaming",
       },
     ],
   },
@@ -63,7 +79,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Leaftv | Watch & Share Free Videos",
-    description: "Stream and share free adult videos in HD.",
+    description: "Stream and share free videos in HD.",
     images: ["/ogimg.png"],
   },
 
@@ -102,27 +118,17 @@ export default function RootLayout({ children }) {
         },
       }}
     >
-      <html lang="en" data-scroll-behavior="smooth">
+      <html lang="en" data-scroll-behavior="smooth" className={outfit.variable}>
         <head>
-          {/* Search Console verification tag */}
-          <meta
-            name="google-site-verification"
-            content="zucoy98lRhLXRncH-YWtrBFIQntWO5YIuJFjlqIyQIk"
-          />
-          <meta
-            name="msvalidate.01"
-            content="98F78FD53BF15D3110DC00676A1C4974"
-          />
-          {/* JSON-LD Schema */}
+          {/* JSON-LD WebSite Schema */}
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
           />
-          <title>Leaftv | Watch & Share Free Videos</title>
         </head>
 
         <body
-          className={`${outfit.className} min-h-screen bg-background flex flex-col`}
+          className={`${outfit.className} min-h-screen bg-background flex flex-col antialiased`}
         >
           <Navbar />
           <ScrollToTop />

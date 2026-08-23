@@ -9,14 +9,17 @@ export default function robots() {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/search/", "/admin/"],
+        disallow: ["/api/", "/search/", "/admin/", "/signin/", "/signup/"],
       },
       {
-        userAgent: ["GPTBot", "CCBot", "anthropic-ai"],
+        userAgent: ["GPTBot", "CCBot", "anthropic-ai", "Bytespider"],
         disallow: "/",
       },
     ],
 
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: [
+      `${baseUrl}/sitemap.xml`,
+      `${baseUrl}/video-sitemap.xml`,
+    ],
   };
 }

@@ -1,37 +1,42 @@
-import { Star } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <div className=" w-full max-w-7xl px-4 mx-auto mt-6 py-10">
-      <div className="   md:items-center justify-between flex md:flex-row flex-col ">
+    <footer className="w-full max-w-7xl px-4 mx-auto mt-auto py-10 border-t border-border/40">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <Link href={"/"}>
-            <div className="font-bold cursor-pointer text-text-primary text-2xl md:text-3xl uppercase">
-              Leaftv{" "}
-              <span className="text-primary text-3xl md:text-4xl leading-0">
+          <Link href="/" className="inline-block">
+            <div className="font-bold cursor-pointer text-text-primary text-2xl md:text-3xl uppercase tracking-wider">
+              Leaftv
+              <span className="text-primary text-3xl md:text-4xl leading-none">
                 .
               </span>
             </div>
           </Link>
-          <h3 className="mt-1  text-neutral-500">
-            © 2025 Leaftv. All rights reserved.
+          <h3 className="mt-1 text-sm text-neutral-400">
+            © {currentYear} Leaftv. All rights reserved.
           </h3>
         </div>
-        {/* <ul className="md:flex max-md:mt-4 space-x-8 space-y-3 ">
-          <li className="hover:underline cursor-pointer underline-offset-2">
-            Privacy Polisy
-          </li>
-          <li className="hover:underline cursor-pointer underline-offset-2">
-            About us
-          </li>
-          <li className="hover:underline cursor-pointer underline-offset-2">
-            Conect us
-          </li>
-        </ul> */}
+
+        <div className="flex items-center gap-6 text-sm text-neutral-400">
+          <Link
+            href="/about"
+            className="hover:text-text-primary transition-colors"
+          >
+            About & Disclaimer
+          </Link>
+          <Link
+            href="/search"
+            className="hover:text-text-primary transition-colors"
+          >
+            Search
+          </Link>
+        </div>
       </div>
-    </div>
+    </footer>
   );
 };
 
