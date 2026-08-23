@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "sitemap": "node scripts/generate-sitemap.mjs",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
