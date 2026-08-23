@@ -38,11 +38,7 @@ export default async function NotFound() {
             <span className="text-8xl md:text-9xl font-extrabold tracking-tighter text-neutral-800 select-none">
               404
             </span>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-4xl md:text-5xl font-black bg-linear-to-r from-primary via-orange-500 to-amber-400 bg-clip-text text-transparent drop-shadow-sm">
-                Lost in Stream?
-              </span>
-            </div>
+            <div className="absolute inset-0 flex items-center justify-center"></div>
           </div>
 
           <h1 className="text-2xl md:text-3xl font-bold text-text-primary mb-3">
@@ -58,7 +54,7 @@ export default async function NotFound() {
           <div className="flex flex-wrap items-center justify-center gap-4 w-full sm:w-auto">
             <Link
               href="/"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 bg-primary hover:bg-red-700 text-text-primary rounded-xl font-semibold text-sm transition-all hover:scale-[1.02] active:scale-95 shadow-lg shadow-primary/20 cursor-pointer"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 bg-primary hover:bg-red-700 text-text-primary  font-semibold text-sm transition-all hover:scale-[1.02] active:scale-95 shadow-lg shadow-primary/20 cursor-pointer"
             >
               <Home size={18} />
               <span>Back to Home</span>
@@ -66,7 +62,7 @@ export default async function NotFound() {
 
             <Link
               href="/search"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 bg-surface hover:bg-surface-hover border border-border hover:border-text-secondary text-text-primary rounded-xl font-semibold text-sm transition-all hover:scale-[1.02] active:scale-95 cursor-pointer"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 bg-surface hover:bg-surface-hover border border-border hover:border-text-secondary text-text-primary  font-semibold text-sm transition-all hover:scale-[1.02] active:scale-95 cursor-pointer"
             >
               <Search size={18} className="text-text-secondary" />
               <span>Search Videos</span>
@@ -79,7 +75,6 @@ export default async function NotFound() {
           <div className="w-full mt-12 pt-10 border-t border-border/40">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
-                <PlayCircle className="w-6 h-6 text-primary" />
                 <h2 className="text-xl md:text-2xl font-bold text-text-primary tracking-tight">
                   Recommended For You
                 </h2>
@@ -89,7 +84,6 @@ export default async function NotFound() {
                 href="/"
                 className="text-xs sm:text-sm font-medium text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1"
               >
-                <Compass size={16} />
                 <span>Explore All</span>
               </Link>
             </div>
