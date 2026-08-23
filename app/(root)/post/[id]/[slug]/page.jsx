@@ -5,7 +5,9 @@ import CardContiner from "@/components/CardContiner";
 import VideoPlayer from "@/components/VideoPlayer";
 import { slugify, parseIsoDuration } from "@/lib/utils";
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://leaftv.fun").replace(/\/$/, "");
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL || "https://leaftv.fun"
+).replace(/\/$/, "");
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;

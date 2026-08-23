@@ -2,10 +2,9 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Analytics } from "@vercel/analytics/next";
 import ScrollToTop from "@/components/ScrollTop";
 import { ClerkProvider } from "@clerk/nextjs";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import CloudflareAnalytics from "@/components/CloudflareAnalytics";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -132,12 +131,11 @@ export default function RootLayout({ children }) {
         >
           <Navbar />
           <ScrollToTop />
-          <main className="grow max-md:px-0 px-4 w-full max-md:pb-28">
+          <main className="grow max-md:px-0 px-4 w-full max-md:pb-10">
             {children}
           </main>
           <Footer />
-          <Analytics />
-          <SpeedInsights />
+          <CloudflareAnalytics />
         </body>
       </html>
     </ClerkProvider>
