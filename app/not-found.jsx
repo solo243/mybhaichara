@@ -18,14 +18,16 @@ export default async function NotFound() {
   // Fetch recommended/trending videos to keep user engaged
   let recommendedVideos = [];
 
-  try {
-    recommendedVideos = await getRandomHomeVideos(8);
-    if (!recommendedVideos || recommendedVideos.length === 0) {
-      const fallback = await getVideoPage({ page: 1, limit: 8 });
-      recommendedVideos = fallback.fetchedVideos || [];
+  if (process.env.MONGODB_URI) {
+    try {
+      recommendedVideos = await getRandomHomeVideos(8);
+      if (!recommendedVideos || recommendedVideos.length === 0) {
+        const fallback = await getVideoPage({ page: 1, limit: 8 });
+        recommendedVideos = fallback?.fetchedVideos || [];
+      }
+    } catch (error) {
+      console.error("Failed to load 404 recommendations:", error);
     }
-  } catch (error) {
-    console.error("Failed to load 404 recommendations:", error);
   }
 
   return (
