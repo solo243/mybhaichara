@@ -18,16 +18,14 @@ export default async function NotFound() {
   // Fetch recommended/trending videos to keep user engaged
   let recommendedVideos = [];
 
-  if (process.env.MONGODB_URI) {
-    try {
-      recommendedVideos = await getRandomHomeVideos(8);
-      if (!recommendedVideos || recommendedVideos.length === 0) {
-        const fallback = await getVideoPage({ page: 1, limit: 8 });
-        recommendedVideos = fallback?.fetchedVideos || [];
-      }
-    } catch (error) {
-      console.error("Failed to load 404 recommendations:", error);
+  try {
+    recommendedVideos = await getRandomHomeVideos(8);
+    if (!recommendedVideos || recommendedVideos.length === 0) {
+      const fallback = await getVideoPage({ page: 1, limit: 8 });
+      recommendedVideos = fallback?.fetchedVideos || [];
     }
+  } catch (error) {
+    console.error("Failed to load 404 recommendations:", error);
   }
 
   return (
@@ -40,7 +38,11 @@ export default async function NotFound() {
             <span className="text-8xl md:text-9xl font-extrabold tracking-tighter text-neutral-800 select-none">
               404
             </span>
-            <div className="absolute inset-0 flex items-center justify-center"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-4xl md:text-5xl font-black bg-linear-to-r from-primary via-orange-500 to-amber-400 bg-clip-text text-transparent drop-shadow-sm">
+                Lost in Stream?
+              </span>
+            </div>
           </div>
 
           <h1 className="text-2xl md:text-3xl font-bold text-text-primary mb-3">

@@ -4,7 +4,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollTop";
 import { ClerkProvider } from "@clerk/nextjs";
-import CloudflareAnalytics from "@/components/CloudflareAnalytics";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -117,7 +118,11 @@ export default function RootLayout({ children }) {
         },
       }}
     >
-      <html lang="en" data-scroll-behavior="smooth" className={outfit.variable}>
+      <html
+        lang="en"
+        data-scroll-behavior="smooth"
+        className={outfit.variable}
+      >
         <head>
           {/* JSON-LD WebSite Schema */}
           <script
@@ -135,7 +140,8 @@ export default function RootLayout({ children }) {
             {children}
           </main>
           <Footer />
-          <CloudflareAnalytics />
+          <Analytics />
+          <SpeedInsights />
         </body>
       </html>
     </ClerkProvider>
