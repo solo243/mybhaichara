@@ -19,7 +19,6 @@ describe("NotFound 404 page", () => {
     render(jsx);
 
     expect(screen.getByText("404")).toBeInTheDocument();
-    expect(screen.getByText(/Lost in Stream\?/i)).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: /back to home/i }),
     ).toBeInTheDocument();

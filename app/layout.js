@@ -118,11 +118,7 @@ export default function RootLayout({ children }) {
         },
       }}
     >
-      <html
-        lang="en"
-        data-scroll-behavior="smooth"
-        className={outfit.variable}
-      >
+      <html lang="en" data-scroll-behavior="smooth" className={outfit.variable}>
         <head>
           {/* JSON-LD WebSite Schema */}
           <script
@@ -136,7 +132,7 @@ export default function RootLayout({ children }) {
         >
           <Navbar />
           <ScrollToTop />
-          <main className="grow max-md:px-0 px-4 w-full max-md:pb-10">
+          <main className="grow pt-16 max-md:px-0 px-4 w-full max-md:pb-10">
             {children}
           </main>
           <Footer />

@@ -115,11 +115,11 @@ const SearchPageContent = ({ currentQuery }) => {
   const isUnderThreeChars = query.trim().length > 0 && query.trim().length < 3;
 
   return (
-    <div className="w-full min-h-screen bg-background md:px-4 px-2 pb-20">
+    <div className="w-full min-h-screen  bg-background md:px-4 px-2 pb-20">
       <div className="md:pt-16 pt-8 max-w-7xl mx-auto flex flex-col items-center">
         {/* Header & Search Bar Container */}
         <div className="w-full max-w-4xl text-center space-y-6">
-          <h1 className="md:text-4xl text-3xl font-bold text-text-primary tracking-tight">
+          <h1 className="md:text-4xl  text-3xl font-bold text-text-primary tracking-tight">
             Find your next video
           </h1>
 

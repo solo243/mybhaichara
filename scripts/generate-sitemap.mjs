@@ -6,7 +6,9 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env.production" });
 dotenv.config({ path: ".env" });
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://leaftv.fun").replace(/\/$/, "");
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL || "https://leaftv.fun"
+).replace(/\/$/, "");
 const MONGODB_URI = process.env.MONGODB_URI;
 
 const slugify = (text) =>
@@ -143,7 +145,11 @@ ${videoUrls.join("\n")}
 ${videoEntries.join("\n")}
 </urlset>`;
 
-  fs.writeFileSync(path.join(publicDir, "video-sitemap.xml"), videoSitemapXml, "utf8");
+  fs.writeFileSync(
+    path.join(publicDir, "video-sitemap.xml"),
+    videoSitemapXml,
+    "utf8",
+  );
   console.log("Created public/video-sitemap.xml");
 }
 
