@@ -132,7 +132,7 @@ export default function RootLayout({ children }) {
         >
           <Navbar />
           <ScrollToTop />
-          <main className="grow pt-16 max-md:px-0 px-4 w-full max-md:pb-10">
+          <main className="grow pt-16 max-md:px-0 px-4 w-full max-md:pb-8">
             {children}
           </main>
           <Footer />

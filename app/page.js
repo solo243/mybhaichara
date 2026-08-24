@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 import PaginationButtons from "@/components/PaginationButton";
 import FetchVideo, { getVideoPage } from "@/lib/FetchVideo";
+import HomeHeroActions from "@/components/HomeHeroActions";
 
 export async function generateMetadata({ searchParams }) {
   const params = await searchParams;
@@ -48,8 +49,28 @@ const Home = async ({ searchParams }) => {
   return (
     <div className="min-h-screen w-full flex">
       <div className="max-w-7xl py-4 w-full mx-auto">
+        {page === 1 && (
+          <div className="mb-8 text-center flex items-center flex-col pt-2 pb-6 px-1 border-b border-border/40">
+            <h1 className="text-3xl sm:text-3xl md:text-4xl font-extrabold text-text-primary tracking-tight">
+              Welcome to <span className="text-primary">Leaftv</span>
+            </h1>
+            <p className="mt-1.5 text-base sm:text-sm md:text-base text-neutral-400 max-w-2xl leading-relaxed">
+              Discover Exclusive Nude Videos and Premium Collections from Top
+              Desi Models - 100% Free.
+            </p>
+
+            {/* Quick Hero Actions: Surprise Me & Share Leaftv */}
+            <HomeHeroActions videos={fetchedVideos} />
+          </div>
+        )}
+
         <Suspense fallback={<LoadingGrid />}>
-          <FetchVideo limit={20} page={page} data={fetchedVideos} />
+          <FetchVideo
+            isHome={page === 1}
+            limit={20}
+            page={page}
+            data={fetchedVideos}
+          />
         </Suspense>
 
         <div className="mt-12 text-center text-sm text-neutral-400">

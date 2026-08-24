@@ -216,7 +216,7 @@ const SearchPageContent = ({ currentQuery }) => {
             </div>
           ) : (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <CardContiner data={results} />
+              <CardContiner showToggle={false} data={results} />
             </div>
           )}
         </div>

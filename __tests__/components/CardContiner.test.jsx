@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import CardContiner from "@/components/CardContiner";
 
@@ -17,5 +17,24 @@ describe("CardContiner component", () => {
     expect(screen.getByText("Video Two")).toBeInTheDocument();
     expect(screen.getByText("Video Three")).toBeInTheDocument();
     expect(screen.getAllByText(/Post ID: #/)).toHaveLength(3);
+  });
+
+  it("toggles density between dense (2 on mobile, 5 on PC) and comfortable (1 on mobile, 4 on PC)", () => {
+    const mockData = [
+      { _id: "1", id: "item1", title: "Video One", videoId: "101" },
+    ];
+
+    render(<CardContiner data={mockData} />);
+
+    const toggleBtn = screen.getByRole("button", {
+      name: /Switch to 1 per row/i,
+    });
+    expect(toggleBtn).toBeInTheDocument();
+
+    // Click to switch to comfortable
+    fireEvent.click(toggleBtn);
+    expect(
+      screen.getByRole("button", { name: /Switch to 2 per row/i }),
+    ).toBeInTheDocument();
   });
 });

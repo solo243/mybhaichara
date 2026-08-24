@@ -174,10 +174,11 @@ const PostPage = async ({ params }) => {
         {/* Recommendations */}
         {recommendations?.length > 0 && (
           <div className="mt-12">
-            <h2 className="mb-4 max-md:px-2 text-2xl font-semibold text-text-primary">
-              Recommended videos
-            </h2>
-            <CardContiner data={recommendations} />
+            <CardContiner
+              showToggle={true}
+              title={"Recommended videos"}
+              data={recommendations}
+            />
           </div>
         )}
       </div>
