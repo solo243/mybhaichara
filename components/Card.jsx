@@ -22,10 +22,52 @@ const Card = ({ data, isDense = false }) => {
 
   const [isHovered, setIsHovered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const containerRef = useRef(null);
   const videoRef = useRef(null);
   const hoverTimerRef = useRef(null);
 
-  // Clean up timer on unmount
+  // Mobile scroll-autoplay IntersectionObserver for Explore video cards
+  useEffect(() => {
+    if (
+      !previewUrl ||
+      !containerRef.current ||
+      typeof IntersectionObserver === "undefined"
+    ) {
+      return;
+    }
+
+    const isTouch =
+      typeof window !== "undefined" &&
+      (window.matchMedia("(pointer: coarse)").matches ||
+        window.matchMedia("(hover: none)").matches);
+
+    if (!isTouch) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsHovered(true);
+          } else {
+            setIsHovered(false);
+            setIsPlaying(false);
+          }
+        });
+      },
+      {
+        threshold: 0.65, // Autoplays when 65% centered in mobile viewport
+        rootMargin: "0px 0px -10% 0px",
+      },
+    );
+
+    observer.observe(containerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [previewUrl]);
+
+  // Clean up hover timer on unmount
   useEffect(() => {
     return () => {
       if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
@@ -36,7 +78,7 @@ const Card = ({ data, isDense = false }) => {
     if (!previewUrl) return;
     if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
 
-    // 150ms quick debounce before mounting preview
+    // 150ms quick debounce before mounting preview on desktop
     hoverTimerRef.current = setTimeout(() => {
       setIsHovered(true);
     }, 150);
@@ -52,8 +94,16 @@ const Card = ({ data, isDense = false }) => {
     }
   };
 
+  // Mobile tap on preview icon: toggle preview without opening post
+  const handleMobilePreviewToggle = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsHovered((prev) => !prev);
+  };
+
   return (
     <Link
+      ref={containerRef}
       href={`/post/${postData._id}/${slug}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -78,7 +128,7 @@ const Card = ({ data, isDense = false }) => {
           </div>
         )}
 
-        {/* Hover Video Preview Player (Only for cards with preview MP4, e.g. Explore cards) */}
+        {/* Hover / Scroll Video Preview Player (Only for cards with preview MP4) */}
         {isHovered && previewUrl && (
           <video
             ref={videoRef}
@@ -96,13 +146,18 @@ const Card = ({ data, isDense = false }) => {
           />
         )}
 
-        {/* Live Preview Indicator on Hover */}
-        {/* {isPlaying && (
-          <div className="absolute top-2 left-2 flex items-center gap-1 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md animate-in fade-in zoom-in-75 duration-200 z-10 pointer-events-none">
+        {/* Mobile Tap-To-Preview Pill */}
+        {previewUrl && !isPlaying && (
+          <button
+            type="button"
+            onClick={handleMobilePreviewToggle}
+            aria-label="Preview video"
+            className="sm:hidden absolute top-1.5 left-1.5 z-20 flex items-center gap-1 bg-black/80 hover:bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-md backdrop-blur-xs border border-white/20 shadow-md active:scale-90 transition-all cursor-pointer"
+          >
             <Play className="w-2.5 h-2.5 fill-white" />
-            <span>PREVIEW</span>
-          </div>
-        )} */}
+            <span>Preview</span>
+          </button>
+        )}
 
         {/* Duration Badge */}
         <span className="absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 rounded bg-black/80 px-1.5 sm:px-2.5 py-0.5 text-[10px] sm:text-xs font-semibold text-text-primary backdrop-blur-sm z-10">

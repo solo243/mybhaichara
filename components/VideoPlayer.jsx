@@ -211,7 +211,7 @@ const VideoPlayer = ({ videos = [], embeds = [], title, children }) => {
 
   if (!activeUrl) {
     return (
-      <div className="flex flex-col items-center justify-center w-full aspect-video bg-neutral-900 rounded-xl border border-neutral-800 p-6 text-center">
+      <div className="flex flex-col items-center justify-center w-full aspect-video bg-neutral-900  border border-neutral-800 p-6 text-center">
         <Tv className="w-12 h-12 text-neutral-600 mb-2" />
         <p className="text-neutral-400 font-medium text-base mb-1">
           Video stream unavailable
@@ -226,7 +226,7 @@ const VideoPlayer = ({ videos = [], embeds = [], title, children }) => {
   return (
     <div className="w-full flex flex-col select-none">
       {/* Player Container (16:9 Aspect Ratio) */}
-      <div className="relative w-full aspect-video max-h-[80vh] bg-black rounded-xl overflow-hidden shadow-2xl border border-border/40 [&_.plyr]:h-full [&_.plyr]:w-full [&_.plyr--video]:h-full">
+      <div className="relative w-full aspect-video max-h-[80vh] bg-black  overflow-hidden shadow-2xl border border-border/40 [&_.plyr]:h-full [&_.plyr]:w-full [&_.plyr--video]:h-full">
         {isEmbed ? (
           <iframe
             src={activeUrl}
