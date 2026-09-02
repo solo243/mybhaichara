@@ -4,6 +4,7 @@ import React, { Suspense, useEffect, useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search, SearchX, X, TrendingUp } from "lucide-react";
 import CardContiner from "@/components/CardContiner";
+import TrendingKeywords from "@/components/TrendingKeywords";
 
 const SUGGESTED_SEARCHES = [
   "Girlfriend",
@@ -219,6 +220,12 @@ const SearchPageContent = ({ currentQuery }) => {
               <CardContiner showToggle={false} data={results} />
             </div>
           )}
+
+          {/* SEO Internal Linking Topics Hub */}
+          <TrendingKeywords
+            title="Explore Trending Searches"
+            description="Discover popular desi categories, HD leaks, and viral video collections."
+          />
         </div>
       </div>
     </div>

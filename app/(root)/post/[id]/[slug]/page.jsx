@@ -3,6 +3,7 @@ import React from "react";
 import { getRecommendedVideos, getVideoById } from "@/lib/FetchVideo";
 import CardContiner from "@/components/CardContiner";
 import VideoPlayer from "@/components/VideoPlayer";
+import TrendingKeywords from "@/components/TrendingKeywords";
 import { slugify, parseIsoDuration } from "@/lib/utils";
 
 const SITE_URL = (
@@ -181,6 +182,12 @@ const PostPage = async ({ params }) => {
             />
           </div>
         )}
+
+        {/* SEO Internal Linking Topics Hub */}
+        <TrendingKeywords
+          title="Explore Related Searches"
+          description="Discover more trending clips, exclusive leaked collections, and popular searches."
+        />
       </div>
     </div>
   );

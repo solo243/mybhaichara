@@ -3,6 +3,7 @@ import React, { Suspense } from "react";
 import PaginationButtons from "@/components/PaginationButton";
 import FetchVideo, { getVideoPage } from "@/lib/FetchVideo";
 import HomeHeroActions from "@/components/HomeHeroActions";
+import TrendingKeywords from "@/components/TrendingKeywords";
 
 export async function generateMetadata({ searchParams }) {
   const params = await searchParams;
@@ -43,7 +44,7 @@ const Home = async ({ searchParams }) => {
 
   const { fetchedVideos, totalPages, totalVideos } = await getVideoPage({
     page,
-    limit: 20,
+    limit: 40,
   });
 
   return (
@@ -68,7 +69,7 @@ const Home = async ({ searchParams }) => {
         <Suspense fallback={<LoadingGrid />}>
           <FetchVideo
             isHome={page === 1}
-            limit={20}
+            limit={40}
             page={page}
             data={fetchedVideos}
           />
@@ -81,6 +82,12 @@ const Home = async ({ searchParams }) => {
         <div className="pt-10 w-full">
           <PaginationButtons page={page} total_pages={totalPages || 1} />
         </div>
+
+        {/* SEO Internal Linking Topics Hub */}
+        <TrendingKeywords
+          title="Trending Searches & Popular Tags"
+          description="Browse trending desi models, full HD viral leaks, and popular video collections on Leaftv."
+        />
       </div>
     </div>
   );
