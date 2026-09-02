@@ -6,6 +6,16 @@ const nextConfig = {
       underscore: "lodash",
     },
   },
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.leaftv.fun" }],
+        destination: "https://leaftv.fun/:path*",
+        permanent: true,
+      },
+    ];
+  },
   // output: "standalone",
   // output: "export",
   reactStrictMode: false,
