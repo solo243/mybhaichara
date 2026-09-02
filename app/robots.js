@@ -9,10 +9,22 @@ export default function robots() {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/search/", "/admin/", "/signin/", "/signup/"],
+        disallow: ["/api/"],
       },
       {
-        userAgent: ["GPTBot", "CCBot", "anthropic-ai", "Bytespider"],
+        userAgent: "GPTBot",
+        disallow: "/",
+      },
+      {
+        userAgent: "CCBot",
+        disallow: "/",
+      },
+      {
+        userAgent: "anthropic-ai",
+        disallow: "/",
+      },
+      {
+        userAgent: "Bytespider",
         disallow: "/",
       },
     ],
