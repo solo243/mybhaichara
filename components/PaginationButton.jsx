@@ -1,7 +1,7 @@
 "use client";
-import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import React, { useTransition, useEffect, useCallback, useState } from "react";
+import React, { useTransition, useEffect, useCallback } from "react";
 import ReactPaginate from "react-paginate";
 
 const PaginationButtons = ({ page = 1, total_pages = 15 }) => {
@@ -9,7 +9,6 @@ const PaginationButtons = ({ page = 1, total_pages = 15 }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-  const [targetPage, setTargetPage] = useState(null);
 
   // Redirect to page 1 if URL is invalid
   useEffect(() => {
@@ -41,14 +40,6 @@ const PaginationButtons = ({ page = 1, total_pages = 15 }) => {
       selectedPage > total_pages
     )
       return;
-
-    setTargetPage(selectedPage);
-
-    // Scroll to top of video grid for smooth user experience
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
     startTransition(() => {
       router.push(createQueryString(selectedPage));
     });
@@ -62,68 +53,67 @@ const PaginationButtons = ({ page = 1, total_pages = 15 }) => {
   if (total_pages <= 1) return null;
 
   return (
-    <div className="w-full flex flex-col items-center gap-4 select-none">
-      {/* Loading Indicator when fetching next page */}
-
-      <div
-        className={`w-full flex flex-col items-center gap-6 transition-opacity duration-200 ${
-          isPending ? "opacity-60 pointer-events-none" : "opacity-100"
-        }`}
-      >
-        {/* --- NUMBER PAGINATION (Shows on both Mobile and PC) --- */}
-        <ReactPaginate
-          breakLabel="..."
-          previousLabel={
-            <div className="flex items-center gap-1">
-              <ChevronLeft className="w-5 h-5" />
-              Prev
-            </div>
-          }
-          nextLabel={
-            <div className="flex items-center gap-1">
-              Next
-              <ChevronRight className="w-5 h-5" />
-            </div>
-          }
-          onPageChange={handlePageClick}
-          pageRangeDisplayed={3}
-          marginPagesDisplayed={2}
-          pageCount={total_pages}
-          forcePage={page - 1}
-          renderOnZeroPageCount={null}
-          containerClassName="flex items-center flex-wrap justify-center gap-1.5 sm:gap-3 select-none px-2"
-          pageLinkClassName="flex items-center justify-center min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] bg-surface text-text-primary hover:bg-surface-hover hover:border-text-secondary transition-all cursor-pointer font-medium text-base "
-          activeLinkClassName="!bg-primary !text-white !border-primary shadow-md shadow-primary/20 scale-105"
-          previousClassName="hidden sm:block"
-          nextClassName="hidden sm:block"
-          previousLinkClassName="flex items-center justify-center px-6 h-11 border border-border bg-surface text-text-primary hover:bg-surface-hover hover:border-text-secondary transition-all cursor-pointer font-medium "
-          nextLinkClassName="flex items-center justify-center px-6 h-11 bg-surface border border-border text-text-primary hover:bg-surface-hover hover:border-text-secondary transition-all cursor-pointer font-medium "
-          disabledLinkClassName="opacity-40 cursor-not-allowed hover:bg-surface hover:border-border"
-          breakLinkClassName="flex items-center justify-center w-6 h-9 sm:w-11 sm:h-11 text-text-secondary cursor-default"
-        />
-
-        {/* --- MOBILE FULL-WIDTH PREV/NEXT BUTTONS (Hidden on PC) --- */}
-        <div className="flex sm:hidden w-full px-2 gap-3 select-none">
-          <button
-            type="button"
-            onClick={() => navigateToPage(page - 1)}
-            disabled={page <= 1 || isPending}
-            className="flex-1 flex items-center justify-center gap-1 h-12 border border-border bg-surface text-text-primary hover:bg-surface-hover transition-all font-medium disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 g"
-          >
+    <div
+      className={`w-full  flex flex-col items-center gap-6 transition-opacity duration-200 ${
+        isPending ? "opacity-60 pointer-events-none" : "opacity-100"
+      }`}
+    >
+      {/* --- NUMBER PAGINATION (Shows on both Mobile and PC) --- */}
+      <ReactPaginate
+        breakLabel="..."
+        previousLabel={
+          <div className="flex items-center gap-1">
             <ChevronLeft className="w-5 h-5" />
             Prev
-          </button>
-
-          <button
-            type="button"
-            onClick={() => navigateToPage(page + 1)}
-            disabled={page >= total_pages || isPending}
-            className="flex-1 flex items-center justify-center gap-1 h-12 border border-border bg-surface text-text-primary hover:bg-surface-hover transition-all font-medium disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 "
-          >
+          </div>
+        }
+        nextLabel={
+          <div className="flex items-center gap-1">
             Next
             <ChevronRight className="w-5 h-5" />
-          </button>
-        </div>
+          </div>
+        }
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={3}
+        marginPagesDisplayed={2}
+        pageCount={total_pages}
+        forcePage={page - 1}
+        renderOnZeroPageCount={null}
+        // Container displays on both mobile and PC
+        containerClassName="flex items-center flex-wrap justify-center gap-1.5 sm:gap-3 select-none px-2"
+        // Numbered Pages - Standardized touch targets for mobile and PC
+        pageLinkClassName="flex items-center justify-center min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px]  bg-surface text-text-primary hover:bg-surface-hover hover:border-text-secondary transition-all cursor-pointer font-medium text-base"
+        activeLinkClassName="!bg-primary !text-white !border-primary shadow-md shadow-primary/20 scale-105"
+        // --- CSS TRICK: Hide React-Paginate's Prev/Next buttons on mobile screens ---
+        previousClassName="hidden sm:block"
+        nextClassName="hidden sm:block"
+        previousLinkClassName="flex items-center justify-center px-6 h-11  border border-border bg-surface text-text-primary hover:bg-surface-hover hover:border-text-secondary transition-all cursor-pointer font-medium"
+        nextLinkClassName="flex items-center justify-center px-6 h-11  bg-surface border border-border text-text-primary hover:bg-surface-hover hover:border-text-secondary transition-all cursor-pointer font-medium"
+        disabledLinkClassName="opacity-40 cursor-not-allowed hover:bg-surface hover:border-border"
+        breakLinkClassName="flex items-center justify-center w-6 h-9 sm:w-11 sm:h-11 text-text-secondary cursor-default"
+      />
+
+      {/* --- MOBILE FULL-WIDTH PREV/NEXT BUTTONS (Hidden on PC) --- */}
+      <div className="flex sm:hidden w-full px-2 gap-3 select-none">
+        <button
+          type="button"
+          onClick={() => navigateToPage(page - 1)}
+          disabled={page <= 1}
+          className="flex-1 flex items-center justify-center gap-1 h-12  border border-border bg-surface text-text-primary hover:bg-surface-hover transition-all font-medium disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
+        >
+          <ChevronLeft className="w-5 h-5" />
+          Prev
+        </button>
+
+        <button
+          type="button"
+          onClick={() => navigateToPage(page + 1)}
+          disabled={page >= total_pages}
+          className="flex-1 flex items-center justify-center gap-1 h-12    border border-border bg-surface text-text-primary hover:bg-surface-hover transition-all font-medium disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
+        >
+          Next
+          <ChevronRight className="w-5 h-5" />
+        </button>
       </div>
     </div>
   );

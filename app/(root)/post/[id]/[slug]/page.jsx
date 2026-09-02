@@ -82,8 +82,7 @@ const PostPage = async ({ params }) => {
     notFound();
   }
 
-  const isExplore = Boolean(data?.isExplore || data?.source === "explore");
-  const recommendations = await getRecommendedVideos(videoId, 24, isExplore);
+  const recommendations = await getRecommendedVideos(videoId, 24);
   const title = data?.title || "Video title unavailable";
   const videoUrls =
     (data?.videos && data.videos.length > 0 ? data.videos : null) ||
@@ -149,10 +148,6 @@ const PostPage = async ({ params }) => {
     ],
   };
 
-  const embedUrls =
-    data?.extracted_media?.embedded_players ||
-    (data?.embedUrl ? [data.embedUrl] : []);
-
   return (
     <div className="min-h-screen bg-background md:pt-8 pb-10">
       {/* Structured Data: VideoObject + BreadcrumbList */}
@@ -166,12 +161,7 @@ const PostPage = async ({ params }) => {
       />
 
       <div className="mx-auto max-w-7xl">
-        <VideoPlayer
-          key={videoId}
-          videos={videoUrls}
-          embeds={embedUrls}
-          title={title}
-        >
+        <VideoPlayer key={videoId} videos={videoUrls} title={title}>
           <div className="mt-6 max-md:px-2">
             <h1 className="text-2xl line-clamp-4 md:text-3xl font-semibold text-text-primary">
               {title}
@@ -187,7 +177,7 @@ const PostPage = async ({ params }) => {
           <div className="mt-12">
             <CardContiner
               showToggle={true}
-              title={isExplore ? "Explore More Videos" : "Recommended videos"}
+              title={"Recommended videos"}
               data={recommendations}
             />
           </div>

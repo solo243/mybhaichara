@@ -30,7 +30,7 @@ describe("Navbar component", () => {
       screen.getAllByRole("link", { name: /home/i }).length,
     ).toBeGreaterThan(0);
     expect(
-      screen.getAllByRole("link", { name: /leak video/i }).length,
+      screen.getAllByRole("link", { name: /explore/i }).length,
     ).toBeGreaterThan(0);
     expect(
       screen.getAllByRole("link", { name: /about/i }).length,

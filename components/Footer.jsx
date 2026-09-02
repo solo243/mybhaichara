@@ -29,18 +29,6 @@ const Footer = () => {
             About & Disclaimer
           </Link>
           <Link
-            href="/explore"
-            className="hover:text-text-primary transition-colors"
-          >
-            Explore
-          </Link>
-          <Link
-            href="/mms"
-            className="hover:text-text-primary transition-colors"
-          >
-            Leak Videos
-          </Link>
-          <Link
             href="/search"
             className="hover:text-text-primary transition-colors"
           >

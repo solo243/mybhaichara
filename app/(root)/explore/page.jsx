@@ -1,13 +1,26 @@
+import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 import CardContiner from "@/components/CardContiner";
 import PaginationButtons from "@/components/PaginationButton";
-import { ExploreVideos } from "@/lib/FetchVideo";
+import TrendingKeywords from "@/components/TrendingKeywords";
+import { getVideoPage } from "@/lib/FetchVideo";
 
-export const metadata = {
-  title: "Explore Latest & Trending Videos - Leaftv",
-  description:
-    "Explore the latest full HD video releases, trending viral clips, and exclusive updates on Leaftv.",
-};
+export async function generateMetadata({ searchParams }) {
+  const params = await searchParams;
+  const page = Number(params?.page) || 1;
+
+  return {
+    title:
+      page > 1
+        ? `Explore Videos - Page ${page} | Leaftv`
+        : "Explore All Videos & MMS - Free HD Video Streaming | Leaftv",
+    description:
+      "Explore all videos, viral desi leaks, and exclusive MMS on Leaftv. Watch high quality streaming with full pagination.",
+    alternates: {
+      canonical: page > 1 ? `/explore?page=${page}` : "/explore",
+    },
+  };
+}
 
 const LoadingGrid = () => (
   <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
@@ -26,22 +39,15 @@ const LoadingGrid = () => (
   </div>
 );
 
-async function ExploreGrid({ page, limit = 40 }) {
-  const { fetchedVideos } = await ExploreVideos({ page, limit });
-  return (
-    <CardContiner
-      data={fetchedVideos}
-      showToggle={true}
-      title={page === 1 ? "Explore Trending Videos" : `Page ${page} Results`}
-    />
-  );
-}
-
-const Explore = async ({ searchParams }) => {
+const ExplorePage = async ({ searchParams }) => {
   const params = await searchParams;
   const page = Number(params?.page) || 1;
 
-  const { totalPages, totalVideos } = await ExploreVideos({
+  if (!Number.isInteger(page) || page < 1) {
+    notFound();
+  }
+
+  const { fetchedVideos, totalPages, totalVideos } = await getVideoPage({
     page,
     limit: 40,
   });
@@ -49,24 +55,35 @@ const Explore = async ({ searchParams }) => {
   return (
     <div className="min-h-screen w-full flex flex-col">
       <div className="max-w-7xl py-4 w-full mx-auto">
-        <Suspense key={page} fallback={<LoadingGrid />}>
-          <ExploreGrid page={page} limit={40} />
+        <Suspense fallback={<LoadingGrid />}>
+          <CardContiner
+            data={fetchedVideos}
+            title={page === 1 ? "Explore All Videos" : `Page ${page} Results`}
+            showToggle={true}
+          />
         </Suspense>
 
         {totalPages > 1 && (
           <div className="mt-12 text-center text-sm text-neutral-400">
-            Page {page} of {totalPages} • {totalVideos} videos
+            Page {page} of {totalPages || 1} • {totalVideos} videos
           </div>
         )}
 
         {totalPages > 1 && (
           <div className="pt-10 w-full">
-            <PaginationButtons page={page} total_pages={totalPages} />
+            <PaginationButtons page={page} total_pages={totalPages || 1} />
           </div>
         )}
+
+        {/* SEO Internal Linking Topics Hub */}
+        <TrendingKeywords
+          title="Trending Topics & Categories"
+          description="Browse trending desi models, full HD viral leaks, and popular video collections on Leaftv."
+          videos={fetchedVideos}
+        />
       </div>
     </div>
   );
 };
 
-export default Explore;
+export default ExplorePage;

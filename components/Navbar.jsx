@@ -3,19 +3,17 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search, Home, Menu, X, Info, Compass, Video } from "lucide-react";
+import { Search, Home, Menu, X, Info, Compass } from "lucide-react";
 
 const NAV_ITEMS_DESKTOP = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/explore", label: "explore", icon: Compass },
-  { href: "/mms", label: "Leak Video", icon: Video },
+  { href: "/explore", label: "Explore", icon: Compass },
   { href: "/about", label: "About", icon: Info },
 ];
 
 const NAV_ITEMS_MOBILE = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/explore", label: "explore", icon: Compass },
-  { href: "/mms", label: "Leak Video", icon: Video },
+  { href: "/explore", label: "Explore", icon: Compass },
   { href: "/about", label: "About", icon: Info },
 ];
 

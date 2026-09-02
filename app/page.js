@@ -1,9 +1,12 @@
-import React, { Suspense } from "react";
+import React from "react";
+import Link from "next/link";
+import { Compass, ArrowRight } from "lucide-react";
 import CardContiner from "@/components/CardContiner";
 import { getRandomHomeVideos } from "@/lib/FetchVideo";
 import HomeHeroActions from "@/components/HomeHeroActions";
-import HomeSectionSelector from "@/components/HomeSectionSelector";
 import TrendingKeywords from "@/components/TrendingKeywords";
+
+export const revalidate = 1800; // 30 minutes cache
 
 export const metadata = {
   title: "Leaftv - Watch Desi Leaks, MMS and Videos for free",
@@ -14,34 +17,16 @@ export const metadata = {
   },
 };
 
-const LoadingGrid = () => (
-  <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
-    {Array.from({ length: 8 }).map((_, index) => (
-      <div
-        key={index}
-        className="animate-pulse overflow-hidden rounded-xl bg-background"
-      >
-        <div className="h-48 bg-neutral-800 rounded-lg" />
-        <div className="space-y-3 p-4">
-          <div className="h-4 w-3/4 rounded bg-neutral-800" />
-          <div className="h-4 w-1/2 rounded bg-neutral-800" />
-        </div>
-      </div>
-    ))}
-  </div>
-);
-
 const Home = async () => {
-  // Load 30 random videos from MongoDB, cached for 30 minutes
-  const randomVideos = await getRandomHomeVideos(30);
+  const randomVideos = await getRandomHomeVideos(34);
 
   return (
     <div className="min-h-screen w-full flex">
       <div className="max-w-7xl py-4 w-full mx-auto">
-        <div className="mb-4 text-center flex items-center flex-col pt-2 pb-6 px-1 border-b border-border/40">
+        <div className="mb-8 text-center flex items-center flex-col pt-2 pb-6 px-1 border-b border-border/40">
           <h1 className="text-3xl sm:text-3xl md:text-4xl max-md:px-6 font-extrabold text-text-primary tracking-tight">
-            <span className="text-primary"> Leaftv </span> Watch nude videos and
-            MMS for free
+            <span className="text-primary"> Leaftv </span>
+            Watch nude videos and MMS for free
           </h1>
           <h2 className="mt-1.5 text-base sm:text-sm md:text-base text-neutral-400 max-w-2xl leading-relaxed">
             Discover Exclusive Nude Videos and Premium Collections from Top Desi
@@ -52,16 +37,24 @@ const Home = async () => {
           <HomeHeroActions videos={randomVideos} />
         </div>
 
-        {/* Explore vs Leak Video Section Selector */}
-        <HomeSectionSelector />
+        {/* 34 Random Videos Grid */}
+        <CardContiner
+          data={randomVideos}
+          title="Featured Videos"
+          showToggle={true}
+        />
 
-        <Suspense fallback={<LoadingGrid />}>
-          <CardContiner
-            data={randomVideos}
-            title="Random Featured Videos"
-            showToggle={true}
-          />
-        </Suspense>
+        {/* Explore All Videos with Pagination Link */}
+        <div className="mt-12 flex justify-center px-4">
+          <Link
+            href="/explore"
+            className="flex items-center gap-2 px-8 py-4 bg-surface hover:bg-surface-hover border border-border text-text-primary font-bold transition-all shadow-md hover:scale-[1.02] active:scale-95 text-base"
+          >
+            <Compass className="w-5 h-5 text-primary" />
+            <span>Explore All Videos </span>
+            <ArrowRight className="w-4 h-4 text-neutral-400" />
+          </Link>
+        </div>
 
         {/* SEO Internal Linking Topics Hub */}
         <TrendingKeywords

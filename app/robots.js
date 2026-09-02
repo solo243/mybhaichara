@@ -1,7 +1,8 @@
 export default function robots() {
-  const baseUrl = (
-    process.env.NEXT_PUBLIC_SITE_URL || "https://leaftv.fun"
-  ).replace(/\/$/, "");
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://leaftv.fun").replace(
+    /\/$/,
+    "",
+  );
 
   return {
     rules: [
@@ -15,7 +16,7 @@ export default function robots() {
         disallow: "/",
       },
       {
-        userAgent: "ClaudeBot",
+        userAgent: "CCBot",
         disallow: "/",
       },
       {
@@ -23,15 +24,7 @@ export default function robots() {
         disallow: "/",
       },
       {
-        userAgent: "CCBot",
-        disallow: "/",
-      },
-      {
         userAgent: "Bytespider",
-        disallow: "/",
-      },
-      {
-        userAgent: "Google-Extended",
         disallow: "/",
       },
     ],
