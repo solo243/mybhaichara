@@ -89,14 +89,14 @@ const Navbar = () => {
             <Link
               href="/search"
               aria-label="Search"
-              className="p-2  hover:bg-surface-hover transition-colors"
+              className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-surface-hover transition-colors "
             >
               <Search size={22} className="text-text-primary" />
             </Link>
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-              className="p-2  hover:bg-surface-hover transition-colors cursor-pointer"
+              className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-surface-hover transition-colors cursor-pointer "
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? (

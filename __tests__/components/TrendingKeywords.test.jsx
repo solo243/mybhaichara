@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import TrendingKeywords, {
   DEFAULT_TRENDING_TOPICS,
+  extractKeywordsFromVideos,
 } from "@/components/TrendingKeywords";
 
 describe("TrendingKeywords component", () => {
@@ -56,5 +57,19 @@ describe("TrendingKeywords component", () => {
     expect(
       screen.getByRole("link", { name: /Custom Topic 2/i }),
     ).toHaveAttribute("href", "/search?query=topic2");
+  });
+
+  it("extracts keywords dynamically from video titles", () => {
+    const mockVideos = [
+      { title: "Desi Bhabhi Romance in Bedroom" },
+      { title: "Viral Romance MMS Clip" },
+      { title: "Exclusive Desi Model Dance" },
+      { title: "Bedroom Romance Secrets" },
+    ];
+
+    const keywords = extractKeywordsFromVideos(mockVideos);
+    expect(keywords.length).toBeGreaterThan(0);
+    expect(keywords.some((k) => k.query === "romance")).toBe(true);
+    expect(keywords.some((k) => k.query === "desi")).toBe(true);
   });
 });

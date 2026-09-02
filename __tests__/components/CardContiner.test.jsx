@@ -16,10 +16,10 @@ describe("CardContiner component", () => {
     expect(screen.getByText("Video One")).toBeInTheDocument();
     expect(screen.getByText("Video Two")).toBeInTheDocument();
     expect(screen.getByText("Video Three")).toBeInTheDocument();
-    expect(screen.getAllByText(/Post ID: #/)).toHaveLength(3);
+    expect(screen.getAllByText(/ID: #/)).toHaveLength(3);
   });
 
-  it("toggles density between dense (2 on mobile, 5 on PC) and comfortable (1 on mobile, 4 on PC)", () => {
+  it("toggles density between default (2 on mobile, 4 on PC) and alternate (1 on mobile, 5 on PC)", () => {
     const mockData = [
       { _id: "1", id: "item1", title: "Video One", videoId: "101" },
     ];
@@ -31,7 +31,7 @@ describe("CardContiner component", () => {
     });
     expect(toggleBtn).toBeInTheDocument();
 
-    // Click to switch to comfortable
+    // Click to switch to alternate mode
     fireEvent.click(toggleBtn);
     expect(
       screen.getByRole("button", { name: /Switch to 2 per row/i }),

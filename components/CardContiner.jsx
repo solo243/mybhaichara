@@ -13,20 +13,20 @@ function subscribe(callback) {
 
 function getSnapshot() {
   try {
-    return localStorage.getItem(STORAGE_KEY) || "dense";
+    return localStorage.getItem(STORAGE_KEY) || "default";
   } catch {
-    return "dense";
+    return "default";
   }
 }
 
 function getServerSnapshot() {
-  return "dense";
+  return "default";
 }
 
 const CardContiner = ({ data = [], showToggle = true, title = null }) => {
   const list = Array.isArray(data) ? data : [];
-  // 'dense' = 2 cards per row on mobile, 5 on PC
-  // 'comfortable' = 1 card per row on mobile, 4 on PC
+  // 'default' = 2 cards per row on mobile, 4 on PC (default requested)
+  // 'alternate' = 1 card per row on mobile, 5 on PC
   const density = useSyncExternalStore(
     subscribe,
     getSnapshot,
@@ -34,7 +34,7 @@ const CardContiner = ({ data = [], showToggle = true, title = null }) => {
   );
 
   const toggleDensity = useCallback(() => {
-    const next = density === "dense" ? "comfortable" : "dense";
+    const next = density === "default" ? "alternate" : "default";
     try {
       localStorage.setItem(STORAGE_KEY, next);
       window.dispatchEvent(new Event("storage"));
@@ -43,7 +43,7 @@ const CardContiner = ({ data = [], showToggle = true, title = null }) => {
     }
   }, [density]);
 
-  const isDense = density === "dense";
+  const isDefault = density === "default";
 
   return (
     <div className="w-full flex flex-col">
@@ -61,30 +61,30 @@ const CardContiner = ({ data = [], showToggle = true, title = null }) => {
             type="button"
             onClick={toggleDensity}
             aria-label={
-              isDense
-                ? "Switch to 1 per row (mobile) / 4 per row (PC)"
-                : "Switch to 2 per row (mobile) / 5 per row (PC)"
+              isDefault
+                ? "Switch to 1 per row (mobile) / 5 per row (PC)"
+                : "Switch to 2 per row (mobile) / 4 per row (PC)"
             }
-            className="flex items-center gap-2 px-3 py-1.5  bg-surface hover:bg-surface-hover border border-border/80 text-text-secondary hover:text-text-primary text-xs sm:text-sm font-medium transition-all active:scale-95 cursor-pointer shadow-xs ml-auto select-none"
+            className="flex items-center gap-2 px-3 py-1.5 bg-surface hover:bg-surface-hover border border-border/80 text-text-secondary hover:text-text-primary text-xs sm:text-sm font-medium transition-all active:scale-95 cursor-pointer shadow-xs ml-auto select-none"
           >
-            {/* Mobile label: 2 / Row vs 1 / Row */}
+            {/* Mobile label: Switch to 1 / Row or 2 / Row */}
             <span className="flex sm:hidden items-center gap-1.5 font-semibold">
-              {isDense ? (
-                <>
-                  <Columns2 className="w-4 h-4 text-primary" />
-                  <span>2 / Row</span>
-                </>
-              ) : (
+              {isDefault ? (
                 <>
                   <Rows className="w-4 h-4 text-primary" />
                   <span>1 / Row</span>
                 </>
+              ) : (
+                <>
+                  <Columns2 className="w-4 h-4 text-primary" />
+                  <span>2 / Row</span>
+                </>
               )}
             </span>
 
-            {/* Desktop label: 5 / Row vs 4 / Row */}
+            {/* Desktop label: Switch to 5 / Row or 4 / Row */}
             <span className="hidden sm:flex items-center gap-1.5 font-semibold">
-              {isDense ? (
+              {isDefault ? (
                 <>
                   <Grid3X3 className="w-4 h-4 text-primary" />
                   <span>5 / Row</span>
@@ -100,19 +100,19 @@ const CardContiner = ({ data = [], showToggle = true, title = null }) => {
         </div>
       )}
 
-      {/* Responsive Grid Container */}
+      {/* Responsive Grid Container: 2 on mobile & 4 on PC by default */}
       <div
         className={`grid justify-items-center transition-all duration-300 ${
-          isDense
-            ? "grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-            : "grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          isDefault
+            ? "grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4"
+            : "grid-cols-1 gap-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
         }`}
       >
         {list.map((item, index) => (
           <Card
             key={item?._id || item?.id || index}
             data={item}
-            isDense={isDense}
+            isDense={isDefault}
           />
         ))}
       </div>

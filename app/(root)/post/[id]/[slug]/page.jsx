@@ -82,7 +82,7 @@ const PostPage = async ({ params }) => {
     notFound();
   }
 
-  const recommendations = await getRecommendedVideos(videoId, 12);
+  const recommendations = await getRecommendedVideos(videoId, 24);
   const title = data?.title || "Video title unavailable";
   const videoUrls =
     (data?.videos && data.videos.length > 0 ? data.videos : null) ||
@@ -167,7 +167,7 @@ const PostPage = async ({ params }) => {
               {title}
             </h1>
             <p className="md:mt-2 mt-1 md:text-lg text-base text-neutral-400">
-              Post ID: #{shareCode}
+              Video ID: #{shareCode}
             </p>
           </div>
         </VideoPlayer>
@@ -187,6 +187,7 @@ const PostPage = async ({ params }) => {
         <TrendingKeywords
           title="Explore Related Searches"
           description="Discover more trending clips, exclusive leaked collections, and popular searches."
+          videos={recommendations}
         />
       </div>
     </div>

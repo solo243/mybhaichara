@@ -3,7 +3,6 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollTop";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -53,6 +52,28 @@ export const metadata = {
     "leaftv",
     "leaftv fun",
   ],
+
+  alternates: {
+    canonical: SITE_URL,
+  },
+
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+
+  manifest: "/manifest.webmanifest",
+
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Leaftv",
+  },
 
   verification: {
     google: "zucoy98lRhLXRncH-YWtrBFIQntWO5YIuJFjlqIyQIk",
@@ -106,48 +127,66 @@ export const metadata = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "Leaftv",
-  url: SITE_URL,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${SITE_URL}/search?query={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: "Leaftv",
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/ogimg.png`,
+        width: 1200,
+        height: 630,
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: "Leaftv",
+      description:
+        "Watch Desi Videos, Leaks and MMS for free on Leaftv without signup.",
+      publisher: {
+        "@id": `${SITE_URL}/#organization`,
+      },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${SITE_URL}/search?query={search_term_string}`,
+        "query-input": "required name=search_term_string",
+      },
+    },
+  ],
 };
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider
-      appearance={{
-        baseTheme: "dark",
-        variables: {
-          colorPrimary: "rgb(220 38 38)",
-        },
-      }}
+    <html
+      lang="en"
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+      className={outfit.variable}
     >
-      <html lang="en" data-scroll-behavior="smooth" className={outfit.variable}>
-        <head>
-          {/* JSON-LD WebSite Schema */}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-          />
-        </head>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <title>Leaftv Watch Desi Leaks, MMS and Videos for free</title>
+      </head>
 
-        <body
-          className={`${outfit.className} min-h-screen bg-background flex flex-col antialiased`}
-        >
-          <Navbar />
-          <ScrollToTop />
-          <main className="grow pt-16 max-md:px-0 px-4 w-full max-md:pb-8">
-            {children}
-          </main>
-          <Footer />
-          <Analytics />
-          <SpeedInsights />
-        </body>
-      </html>
-    </ClerkProvider>
+      <body
+        className={`${outfit.className} min-h-screen bg-background flex flex-col antialiased`}
+      >
+        <Navbar />
+        <ScrollToTop />
+        <main className="grow pt-16 max-md:px-0 px-4 w-full max-md:pb-8">
+          {children}
+        </main>
+        <Footer />
+        <Analytics />
+        <SpeedInsights />
+      </body>
+    </html>
   );
 }

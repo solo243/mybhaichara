@@ -1,22 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async redirects() {
-    return [
-      {
-        source: "/:path*",
-        has: [
-          {
-            type: "host",
-            value: "www.leaftv.fun", // Matches non-www traffic
-          },
-        ],
-        destination: "https://leaftv.fun/:path*", // Redirects to www
-        permanent: true, // 301 Permanent Redirect for SEO
-      },
-    ];
+  reactCompiler: true,
+  turbopack: {
+    resolveAlias: {
+      underscore: "lodash",
+    },
   },
-
-  devIndicators: false,
+  // output: "standalone",
+  // output: "export",
+  reactStrictMode: false,
+  compress: true,
+  poweredByHeader: false,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
   allowedDevOrigins: ["192.168.1.13", "0.0.0.0", "192.168.1.10"],
   images: {
     unoptimized: true,
@@ -27,13 +24,6 @@ const nextConfig = {
         port: "",
         pathname: "**",
       },
-      {
-        protocol: "https",
-        hostname: "img.clerk.com",
-        port: "",
-        pathname: "**",
-      },
-      // Added your new CDN domain here
       {
         protocol: "https",
         hostname: "vk25cdn.viralkand.com",

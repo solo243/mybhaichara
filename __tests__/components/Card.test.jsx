@@ -19,7 +19,8 @@ describe("Card component", () => {
       screen.getByText("Awesome Video Title! Test 123"),
     ).toBeInTheDocument();
     expect(screen.getByText("04:30")).toBeInTheDocument();
-    expect(screen.getByText("Post ID: #VK-999")).toBeInTheDocument();
+    expect(screen.getByText("ID: #VK-999")).toBeInTheDocument();
+    expect(screen.getByText("Watch")).toBeInTheDocument();
   });
 
   it("renders the image when img_url is provided", () => {
@@ -61,7 +62,7 @@ describe("Card component", () => {
     render(<Card data={{ _id: "123" }} />);
 
     expect(screen.getByText("Title is not available")).toBeInTheDocument();
-    expect(screen.getByText("Post ID: #NA")).toBeInTheDocument();
+    expect(screen.getByText("ID: #NA")).toBeInTheDocument();
     expect(screen.getByText("No preview available")).toBeInTheDocument();
   });
 });

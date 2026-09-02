@@ -81,8 +81,8 @@ const PaginationButtons = ({ page = 1, total_pages = 15 }) => {
         renderOnZeroPageCount={null}
         // Container displays on both mobile and PC
         containerClassName="flex items-center flex-wrap justify-center gap-1.5 sm:gap-3 select-none px-2"
-        // Numbered Pages - Scaled down slightly for mobile (w-9 h-9) so they fit nicely
-        pageLinkClassName="flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11    bg-surface text-text-primary hover:bg-surface-hover hover:border-text-secondary transition-all cursor-pointer font-medium text-base sm:text-base"
+        // Numbered Pages - Standardized touch targets for mobile and PC
+        pageLinkClassName="flex items-center justify-center min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px]  bg-surface text-text-primary hover:bg-surface-hover hover:border-text-secondary transition-all cursor-pointer font-medium text-base"
         activeLinkClassName="!bg-primary !text-white !border-primary shadow-md shadow-primary/20 scale-105"
         // --- CSS TRICK: Hide React-Paginate's Prev/Next buttons on mobile screens ---
         previousClassName="hidden sm:block"

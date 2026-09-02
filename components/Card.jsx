@@ -55,9 +55,9 @@ const Card = ({ data, isDense = false }) => {
         <div
           className={`mt-1 flex items-center justify-between text-text-secondary font-medium ${isDense ? "text-xs  " : "text-sm"}`}
         >
-          <div>Post ID: #{postData.videoId}</div>
+          <div>ID: #{postData.videoId}</div>
           <div className="flex items-center gap-1 transition group-hover:translate-x-0.5 text-text-secondary">
-            <span className="">view post</span>
+            <span>Watch</span>
             <ArrowRight size={14} />
           </div>
         </div>

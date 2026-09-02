@@ -10,7 +10,13 @@ export async function generateMetadata({ searchParams }) {
   const page = Number(params?.page) || 1;
 
   return {
-    title: page > 1 ? `Latest videos – Page ${page}` : undefined,
+    title:
+      page > 1
+        ? `Leaftv - Page ${page} | Watch Desi Leaks, MMS and Videos for free `
+        : undefined,
+    description:
+      "Watch Desi Videos , Leaks and MMS for free on Leaftv without signup desi leaks and bhabhi chudai videos and viral reel and viral leaks",
+
     alternates: {
       canonical: page > 1 ? `/?page=${page}` : "/",
     },
@@ -18,7 +24,7 @@ export async function generateMetadata({ searchParams }) {
 }
 
 const LoadingGrid = () => (
-  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+  <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
     {Array.from({ length: 8 }).map((_, index) => (
       <div
         key={index}
@@ -87,6 +93,7 @@ const Home = async ({ searchParams }) => {
         <TrendingKeywords
           title="Trending Searches & Popular Tags"
           description="Browse trending desi models, full HD viral leaks, and popular video collections on Leaftv."
+          videos={fetchedVideos}
         />
       </div>
     </div>
