@@ -51,13 +51,14 @@ const Home = async ({ searchParams }) => {
       <div className="max-w-7xl py-4 w-full mx-auto">
         {page === 1 && (
           <div className="mb-8 text-center flex items-center flex-col pt-2 pb-6 px-1 border-b border-border/40">
-            <h1 className="text-3xl sm:text-3xl md:text-4xl font-extrabold text-text-primary tracking-tight">
-              Welcome to <span className="text-primary">Leaftv</span>
+            <h1 className="text-3xl sm:text-3xl md:text-4xl max-md:px-6 font-extrabold text-text-primary tracking-tight">
+              <span className=" text-primary"> Leaftv </span>
+              Watch nude videos and MMS for free
             </h1>
-            <p className="mt-1.5 text-base sm:text-sm md:text-base text-neutral-400 max-w-2xl leading-relaxed">
+            <h2 className="mt-1.5 text-base sm:text-sm md:text-base text-neutral-400 max-w-2xl leading-relaxed">
               Discover Exclusive Nude Videos and Premium Collections from Top
               Desi Models - 100% Free.
-            </p>
+            </h2>
 
             {/* Quick Hero Actions: Surprise Me & Share Leaftv */}
             <HomeHeroActions videos={fetchedVideos} />

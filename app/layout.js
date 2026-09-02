@@ -29,22 +29,29 @@ export const metadata = {
   metadataBase: new URL(SITE_URL),
 
   title: {
-    default: "Leaftv | Watch & Share Free Videos",
+    default: "Leaftv Watch Desi Leaks, MMS and Videos for free",
     template: "%s | Watch Free on Leaftv",
   },
 
   description:
-    "Stream, watch, and share free videos on Leaftv. Enjoy high-quality HD streaming with zero subscription or registration required.",
+    "Watch Desi Videos , Leaks and MMS for free on Leaftv without signup desi leaks and bhabhi chudai videos and viral reel and viral leaks",
 
   keywords: [
     "Leaftv",
+    "leaks",
+    "Leaks",
+    "Desi",
+    "desi",
+    "chudai",
+    "sex",
+    "mms",
+    "nude",
+    "nude desi",
+    "desi girlfriend",
+    "live",
+    "bhabhi",
     "leaftv",
     "leaftv fun",
-    "watch free videos",
-    "free video streaming",
-    "hd movies",
-    "no sign up video site",
-    "online video player",
   ],
 
   verification: {
@@ -59,9 +66,9 @@ export const metadata = {
   },
 
   openGraph: {
-    title: "Leaftv - Watch & Share Free Videos",
+    title: "Leaftv Watch Desi Leaks, MMS and Videos for free",
     description:
-      "Unlimited streaming and sharing of videos. No subscription. Just play.",
+      "Watch Desi Videos , Leaks and MMS for free on Leaftv without signup desi leaks and bhabhi chudai videos and viral reel and viral leaks",
     url: SITE_URL,
     siteName: "Leaftv",
     locale: "en_US",
@@ -78,8 +85,9 @@ export const metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Leaftv | Watch & Share Free Videos",
-    description: "Stream and share free videos in HD.",
+    title: "Leaftv Watch Desi Leaks, MMS and Videos for free",
+    description:
+      "Watch Desi Videos , Leaks and MMS for free on Leaftv without signup desi leaks and bhabhi chudai videos and viral reel and viral leaks",
     images: ["/ogimg.png"],
   },
 

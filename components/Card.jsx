@@ -42,7 +42,7 @@ const Card = ({ data, isDense = false }) => {
       </div>
 
       <div className="mt-1.5 sm:mt-2 max-md:px-1 py-0.5 sm:py-1">
-        <h2
+        <div
           className={`line-clamp-2 font-semibold text-text-primary transition-colors ${
             isDense
               ? "text-[13.5px] sm:text-sm md:text-sm"
@@ -50,7 +50,7 @@ const Card = ({ data, isDense = false }) => {
           }`}
         >
           {postData.title}
-        </h2>
+        </div>
 
         <div
           className={`mt-1 flex items-center justify-between text-text-secondary font-medium ${isDense ? "text-xs  " : "text-sm"}`}

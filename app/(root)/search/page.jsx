@@ -203,9 +203,9 @@ const SearchPageContent = ({ currentQuery }) => {
               <div className="p-4 bg-surface rounded-full text-text-secondary mb-2">
                 <SearchX className="w-8 h-8" />
               </div>
-              <h2 className="text-text-primary text-xl font-semibold">
+              <div className="text-text-primary text-xl font-semibold">
                 No videos found
-              </h2>
+              </div>
               <p className="text-text-secondary text-lg max-w-md">
                 We couldn&apos;t find anything matching &ldquo;
                 <span className="text-text-primary font-medium">
