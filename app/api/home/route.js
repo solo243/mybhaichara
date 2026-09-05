@@ -20,7 +20,8 @@ const mapVideoRecord = (video) => {
     img_url: video.img_url || video.homepage_thumbnail || "",
     homepage_thumbnail: video.homepage_thumbnail || video.img_url || "",
     duration: video.duration || "NA",
-    videoId: video.videoId || video.id || (video._id ? video._id.toString() : "NA"),
+    videoId:
+      video.videoId || video.id || (video._id ? video._id.toString() : "NA"),
     videos: directVideos,
   };
 };
@@ -29,13 +30,16 @@ export async function GET(request) {
   try {
     await connectDB();
     const db = mongoose.connection.db;
-    const videoCollection = db.collection("bhaicharas");
+    const videoCollection = db.collection("leaftv");
 
     const { searchParams } = new URL(request.url);
     const videoId = searchParams.get("videos");
     const query = (searchParams.get("query") || "").trim();
     const page = Math.max(1, parseInt(searchParams.get("page"), 10) || 1);
-    const limit = Math.max(1, Math.min(50, parseInt(searchParams.get("limit"), 10) || 10));
+    const limit = Math.max(
+      1,
+      Math.min(50, parseInt(searchParams.get("limit"), 10) || 10),
+    );
 
     const headers = {
       "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
@@ -52,11 +56,7 @@ export async function GET(request) {
             ],
           }
         : {
-            $or: [
-              { _id: videoId },
-              { id: videoId },
-              { videoId: videoId },
-            ],
+            $or: [{ _id: videoId }, { id: videoId }, { videoId: videoId }],
           };
 
       const video = await videoCollection.findOne(singleQuery);
@@ -105,11 +105,7 @@ export async function GET(request) {
     // 3. Paginated listing
     const skip = (page - 1) * limit;
     const [videos, totalVideos] = await Promise.all([
-      videoCollection
-        .find({})
-        .skip(skip)
-        .limit(limit)
-        .toArray(),
+      videoCollection.find({}).skip(skip).limit(limit).toArray(),
       videoCollection.countDocuments(),
     ]);
 

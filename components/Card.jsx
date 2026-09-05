@@ -45,8 +45,8 @@ const Card = ({ data, isDense = false }) => {
         <div
           className={`line-clamp-2 font-semibold text-text-primary transition-colors ${
             isDense
-              ? "text-[13.5px] sm:text-sm md:text-sm"
-              : "text-base sm:text-base"
+              ? "text-[13px] sm:text-sm md:text-sm"
+              : "text-base sm:text-sm"
           }`}
         >
           {postData.title}

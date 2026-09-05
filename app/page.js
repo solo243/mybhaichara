@@ -6,7 +6,7 @@ import { getRandomHomeVideos } from "@/lib/FetchVideo";
 import HomeHeroActions from "@/components/HomeHeroActions";
 import TrendingKeywords from "@/components/TrendingKeywords";
 
-export const revalidate = 1800; // 30 minutes cache
+export const revalidate = 1400; // 30 minutes cache
 
 export const metadata = {
   title: "Leaftv - Watch Desi Leaks, MMS and Videos for free",
@@ -18,7 +18,7 @@ export const metadata = {
 };
 
 const Home = async () => {
-  const randomVideos = await getRandomHomeVideos(34);
+  const randomVideos = await getRandomHomeVideos(36);
 
   return (
     <div className="min-h-screen w-full flex">
