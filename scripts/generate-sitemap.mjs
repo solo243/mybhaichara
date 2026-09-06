@@ -36,46 +36,17 @@ function parseDurationSeconds(durationStr) {
 }
 
 async function generate() {
+  console.log("Connecting to MongoDB to fetch videos for static sitemaps...");
   let videos = [];
 
   try {
     if (MONGODB_URI) {
       await mongoose.connect(MONGODB_URI);
-      const client = mongoose.connection.client;
+      const db = mongoose.connection.db;
+      const collection = db.collection("bhaicharas");
 
-      // 1. Fetch all videos from test.bhaicharas
-      const testDb = client.db("test");
-      const bhaicharaDocs = await testDb
-        .collection("bhaicharas")
-        .find({})
-        .toArray();
-
-      // 2. Fetch all videos from leaftv.leaftv
-      const leaftvDb = client.db("leaftv");
-      const leaftvDocs = await leaftvDb.collection("leaftv").find({}).toArray();
-
-      // Combine and deduplicate videos by ID/title
-      const seen = new Set();
-      const combined = [];
-
-      for (const v of [...bhaicharaDocs, ...leaftvDocs]) {
-        const idKey = v.videoId || v.id || (v._id ? v._id.toString() : "");
-        const titleKey = v.title || "";
-        const uniqueKey = idKey || titleKey;
-        if (!seen.has(uniqueKey)) {
-          seen.add(uniqueKey);
-          combined.push(v);
-        }
-      }
-
-      videos = combined;
-
-      // Update Data.json with the newest MongoDB data
-      if (videos.length > 0) {
-        const dataJsonPath = path.resolve("./Data.json");
-        fs.writeFileSync(dataJsonPath, JSON.stringify(videos, null, 2), "utf8");
-      }
-
+      videos = await collection.find({}).toArray();
+      console.log(`Fetched ${videos.length} videos from MongoDB.`);
       await mongoose.disconnect();
     }
   } catch (err) {
@@ -87,6 +58,7 @@ async function generate() {
     const dataJsonPath = path.resolve("./Data.json");
     if (fs.existsSync(dataJsonPath)) {
       videos = JSON.parse(fs.readFileSync(dataJsonPath, "utf8"));
+      console.log(`Fallback: Loaded ${videos.length} videos from Data.json.`);
     }
   }
 
@@ -118,12 +90,7 @@ async function generate() {
   ];
 
   const videoUrls = videos.map((video) => {
-    const id =
-      video.id !== undefined && video.id !== null
-        ? String(video.id)
-        : video._id
-          ? video._id.toString()
-          : "";
+    const id = video._id ? video._id.toString() : String(video.id || "");
     const title = video.title || "video";
     const slug = slugify(title);
     const rawDate = video.updatedAt || video.createdAt || new Date();
@@ -144,41 +111,20 @@ ${videoUrls.join("\n")}
 </urlset>`;
 
   fs.writeFileSync(path.join(publicDir, "sitemap.xml"), sitemapXml, "utf8");
+  console.log("Created public/sitemap.xml");
 
   // 2. Generate Google Video video-sitemap.xml
   const videoEntries = videos.map((video) => {
-    const id =
-      video.id !== undefined && video.id !== null
-        ? String(video.id)
-        : video._id
-          ? video._id.toString()
-          : "";
+    const id = video._id ? video._id.toString() : String(video.id || "");
     const title = video.title || "Free Video";
     const slug = slugify(title);
     const pageUrl = `${SITE_URL}/post/${id}/${slug}`;
     const thumbnailUrl =
-      video.img_url ||
-      video.imgurl ||
-      video.homepage_thumbnail ||
-      `${SITE_URL}/ogimg.png`;
-
-    let directVideos = [];
-    if (Array.isArray(video.videos)) {
-      directVideos.push(...video.videos.filter(Boolean));
-    } else if (typeof video.videos === "string" && video.videos.trim()) {
-      directVideos.push(video.videos.trim());
-    }
-
-    if (Array.isArray(video.video)) {
-      directVideos.push(...video.video.filter(Boolean));
-    } else if (typeof video.video === "string" && video.video.trim()) {
-      directVideos.push(video.video.trim());
-    }
-
-    if (Array.isArray(video.extracted_media?.direct_videos)) {
-      directVideos.push(...video.extracted_media.direct_videos.filter(Boolean));
-    }
-
+      video.img_url || video.homepage_thumbnail || `${SITE_URL}/ogimg.png`;
+    const directVideos =
+      (video.videos && video.videos.length > 0 ? video.videos : null) ||
+      video.extracted_media?.direct_videos ||
+      [];
     const contentUrl = directVideos[0] || "";
     const rawDate = video.createdAt || video.updatedAt || new Date();
     const pubDate = new Date(rawDate).toISOString();
@@ -210,6 +156,7 @@ ${videoEntries.join("\n")}
     videoSitemapXml,
     "utf8",
   );
+  console.log("Created public/video-sitemap.xml");
 }
 
 generate().catch(console.error);
