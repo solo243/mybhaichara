@@ -184,8 +184,15 @@ export default function RootLayout({ children }) {
           {children}
         </main>
         <Footer />
-        <Analytics />
-        <SpeedInsights />
+        {process.env.VERCEL && <Analytics />}
+        {process.env.VERCEL && <SpeedInsights />}
+        {process.env.NEXT_PUBLIC_CF_BEACON_TOKEN && (
+          <script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={`{"token": "${process.env.NEXT_PUBLIC_CF_BEACON_TOKEN}"}`}
+          />
+        )}
       </body>
     </html>
   );
